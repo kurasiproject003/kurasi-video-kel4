@@ -1,0 +1,2415 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark light">
+<title>Portal Kurasi Video Pembelajaran • Teknik Elektro UNPAM</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@700;800&display=swap');
+
+  :root {
+    --bg: #080d1a;
+    --bg-grad-1: rgba(139, 92, 246, 0.18);
+    --bg-grad-2: rgba(52, 211, 153, 0.12);
+    --surface: #111827;
+    --surface-glass: rgba(17, 24, 39, 0.92);
+    --surface-card: #151e32;
+    --surface-sub: #0f172a;
+    --surface-tile: #192338;
+    --border: #28354f;
+    --purple: #8b5cf6;
+    --purple-soft: rgba(139, 92, 246, 0.16);
+    --purple-text: #d8b4fe;
+    --mint: #10b981;
+    --mint-bright: #34d399;
+    --mint-text: #6ee7b7;
+    --coral: #fb7185;
+    --coral-text: #fda4af;
+    --wa: #22c55e;
+    --wa-text: #86efac;
+    --text: #ffffff;
+    --text-sec: #f1f5f9;
+    --text-muted: #94a3b8;
+    --shadow-card: 0 10px 24px rgba(0, 0, 0, 0.3);
+    --radius-xl: 24px;
+    --radius-lg: 18px;
+  }
+
+  body.light-mode {
+    --bg: #f1f5f9;
+    --bg-grad-1: rgba(139, 92, 246, 0.10);
+    --bg-grad-2: rgba(16, 185, 129, 0.10);
+    --surface: #ffffff;
+    --surface-glass: rgba(255, 255, 255, 0.92);
+    --surface-card: #ffffff;
+    --surface-sub: #f8fafc;
+    --surface-tile: #f8fafc;
+    --border: #cbd5e1;
+    --purple: #7c3aed;
+    --purple-soft: rgba(124, 58, 237, 0.10);
+    --purple-text: #6d28d9;
+    --mint: #059669;
+    --mint-bright: #10b981;
+    --mint-text: #047857;
+    --coral: #e11d48;
+    --coral-text: #be123c;
+    --wa: #16a34a;
+    --wa-text: #15803d;
+    --text: #0f172a;
+    --text-sec: #1e293b;
+    --text-muted: #475569;
+    --shadow-card: 0 8px 20px rgba(15, 23, 42, 0.07);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(circle at 15% 5%, var(--bg-grad-1) 0%, transparent 42%),
+      radial-gradient(circle at 85% 20%, var(--bg-grad-2) 0%, transparent 38%);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 130px;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  .app-shell {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 16px 16px 28px 16px;
+    transition: max-width 0.25s ease;
+  }
+
+  /* 0. Auth & Custom Video Action Bar */
+  .auth-bar {
+    background: var(--surface-card);
+    border: 1.5px solid var(--border);
+    border-radius: 18px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    box-shadow: var(--shadow-card);
+  }
+
+  .user-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-sec);
+  }
+
+  .user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--purple-soft);
+    border: 1.5px solid var(--purple);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .auth-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .btn-google {
+    background: #ffffff;
+    color: #0f172a;
+    border: 1px solid #cbd5e1;
+    border-radius: 999px;
+    padding: 7px 13px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform 0.15s;
+  }
+  .btn-google:active { transform: scale(0.96); }
+
+  .btn-add-video {
+    background: linear-gradient(135deg, #8b5cf6, #10b981);
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    padding: 7px 13px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .btn-add-video:active { transform: scale(0.96); }
+
+  .btn-logout {
+    background: var(--surface-sub);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 7px 11px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* 1. Top Bar: Search + Theme Toggle */
+  .search-wrap {
+    position: sticky;
+    top: 10px;
+    z-index: 40;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .search-box {
+    position: relative;
+    flex: 1;
+    background: var(--surface-glass);
+    backdrop-filter: blur(12px);
+    border-radius: 999px;
+    border: 2px solid var(--purple);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  }
+
+  .search-box input {
+    width: 100%;
+    padding: 12px 38px 12px 42px;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    outline: none;
+  }
+
+  .search-box input::placeholder {
+    color: var(--text-muted);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    color: var(--purple-text);
+    pointer-events: none;
+  }
+
+  .clear-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background: var(--border);
+    color: var(--text);
+    font-size: 11px;
+    cursor: pointer;
+    display: none;
+  }
+
+  .theme-toggle-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--surface-glass);
+    backdrop-filter: blur(12px);
+    border: 2px solid var(--purple);
+    color: var(--text);
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    transition: transform 0.2s, background-color 0.25s;
+  }
+  .theme-toggle-btn:active { transform: scale(0.92); }
+
+  .tag-strip {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    scrollbar-width: none;
+  }
+  .tag-strip::-webkit-scrollbar { display: none; }
+
+  .hash-chip {
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--surface-card);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .hash-chip.active {
+    background: var(--purple-soft);
+    border-color: var(--purple);
+    color: var(--purple-text);
+  }
+
+  /* 2. Interactive 3D Swipeable Hero Carousel */
+  .carousel-section {
+    margin-bottom: 18px;
+  }
+
+  .carousel-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 14px;
+    scrollbar-width: none;
+    border-radius: var(--radius-xl);
+  }
+  .carousel-track::-webkit-scrollbar { display: none; }
+
+  .carousel-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    border-radius: var(--radius-xl);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    min-height: 235px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .slide-hero {
+    background: linear-gradient(135deg, #2e1065 0%, #1e1b4b 52%, #064e3b 100%);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35), inset 0 0 0 2px rgba(167, 139, 250, 0.45);
+    perspective: 900px;
+  }
+
+  body.light-mode .slide-hero {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 55%, #059669 100%);
+    box-shadow: 0 14px 28px rgba(79, 70, 229, 0.25);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 23px;
+    font-weight: 800;
+    line-height: 1.18;
+    color: #ffffff;
+    text-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+    margin-bottom: 10px;
+  }
+
+  .hero-sub {
+    font-size: 12.5px;
+    color: #e2e8f0;
+    margin-bottom: 14px;
+    line-height: 1.45;
+  }
+
+  .swipe-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(15, 23, 42, 0.82);
+    border: 1.5px solid #34d399;
+    color: #6ee7b7;
+    font-size: 12.5px;
+    font-weight: 800;
+    padding: 9px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .swipe-cta:active { transform: scale(0.96); }
+
+  .stage-3d {
+    position: relative;
+    width: 100%;
+    height: 175px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease-out;
+    cursor: grab;
+  }
+
+  .float-bolt {
+    position: absolute;
+    top: 4px;
+    left: 2px;
+    font-size: 24px;
+    filter: drop-shadow(0 0 10px #a3e635);
+    animation: floatY 3s ease-in-out infinite;
+  }
+
+  .float-atom {
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    font-size: 22px;
+    filter: drop-shadow(0 0 10px #38bdf8);
+    animation: floatY 3.6s ease-in-out infinite reverse;
+  }
+
+  .float-chip {
+    position: absolute;
+    bottom: 6px;
+    left: 6px;
+    background: #0f172a;
+    border: 1.5px solid #a3e635;
+    color: #a3e635;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 8px;
+    border-radius: 8px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+    animation: floatY 2.8s ease-in-out infinite;
+  }
+
+  .play-orb {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 6px 16px rgba(139, 92, 246, 0.5);
+    cursor: pointer;
+  }
+
+  @keyframes floatY {
+    0%, 100% { transform: translateY(0px) translateZ(20px); }
+    50% { transform: translateY(-7px) translateZ(30px); }
+  }
+
+  .credit-shimmer {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    animation: creditFloat 2.4s ease-in-out infinite;
+  }
+
+  .credit-shimmer::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.55),
+      transparent
+    );
+    transform: skewX(-20deg);
+    animation: creditShine 2s ease-in-out infinite;
+  }
+
+  @keyframes creditFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+  }
+
+  @keyframes creditShine {
+    0% { left: -120%; }
+    45%, 100% { left: 150%; }
+  }
+
+  .slide-subjects {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow-card);
+  }
+
+  .slide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .slide-header h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .slide-header span {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .subject-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .subj-tile {
+    background: var(--surface-tile);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .subj-tile:active { transform: scale(0.97); }
+
+  .subj-tile.active {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.22), rgba(52, 211, 153, 0.18));
+    border-color: var(--mint);
+    box-shadow: 0 0 0 1px var(--mint);
+  }
+
+  .subj-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    flex-shrink: 0;
+  }
+
+  .subj-name {
+    font-size: 12.8px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .dot-btn {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    border: none;
+    background: var(--border);
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+
+  .dot-btn.active {
+    width: 24px;
+    background: var(--mint-bright);
+  }
+
+  /* 2B. Weekly Update & Google Tasks Reminder Card */
+  .weekly-card {
+    background: var(--surface-card);
+    border: 1.5px solid var(--border);
+    border-left: 5px solid var(--mint);
+    border-radius: var(--radius-lg);
+    padding: 15px 16px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .weekly-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+
+  .weekly-top h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .weekly-badge {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--mint-text);
+    background: rgba(16, 185, 129, 0.14);
+    border: 1px solid var(--mint);
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+
+  .weekly-desc {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+    line-height: 1.45;
+  }
+
+  .weekly-tasks {
+    list-style: none;
+    display: grid;
+    gap: 7px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--text-sec);
+  }
+
+  .weekly-tasks label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  .weekly-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tasks-link-btn {
+    background: var(--purple-soft);
+    color: var(--purple-text);
+    border: 1.5px solid var(--purple);
+    text-decoration: none;
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* 3. Section Heading */
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .section-head h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .filter-badge {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--purple-text);
+    background: var(--purple-soft);
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+
+  /* 4. Progressive Disclosure Topic Cards */
+  .topic-card {
+    background: var(--surface-card);
+    border: 1.5px solid var(--border);
+    border-radius: 22px;
+    padding: 18px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow-card);
+    transition: border-color 0.2s, background-color 0.25s;
+  }
+
+  .topic-card.studied {
+    border-color: var(--mint);
+  }
+
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .course-pill {
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--mint-text);
+    background: rgba(16, 185, 129, 0.14);
+    border: 1.5px solid var(--mint);
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+
+  .week-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .topic-title {
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.38;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .contributor-line {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .del-custom-btn {
+    background: transparent;
+    border: 1px solid var(--coral);
+    color: var(--coral-text);
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 10.5px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* Tool Pill Buttons (3 Utama + Share WhatsApp) */
+  .tool-pills {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .tool-btn {
+    padding: 10px 8px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: var(--surface-sub);
+    color: var(--text);
+    transition: all 0.2s;
+  }
+
+  .tool-btn:active { transform: scale(0.96); }
+
+  .btn-video {
+    border: 2px solid var(--coral);
+    color: var(--coral-text);
+  }
+  .btn-video.active {
+    background: var(--coral);
+    color: #ffffff;
+  }
+
+  .btn-summary {
+    border: 2px solid var(--purple);
+    color: var(--purple-text);
+  }
+  .btn-summary.active {
+    background: var(--purple);
+    color: #ffffff;
+  }
+
+  .btn-terms {
+    border: 2px solid var(--mint);
+    color: var(--mint-text);
+  }
+  .btn-terms.active {
+    background: var(--mint);
+    color: #ffffff;
+  }
+
+  .btn-wa-share {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1.5px solid var(--wa);
+    background: rgba(34, 197, 94, 0.12);
+    color: var(--wa-text);
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s;
+  }
+  .btn-wa-share:active { transform: scale(0.98); }
+
+  /* Expandable Drawer Area */
+  .drawer {
+    display: none;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    animation: fadeIn 0.22s ease-out;
+  }
+
+  .drawer.open {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .video-box {
+    background: #050811;
+    border: 1.5px solid var(--coral);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .video-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #0f172a;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #fda4af;
+  }
+
+  .ext-yt-link {
+    background: #e11d48;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .video-aspect {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    height: 0;
+  }
+
+  .video-aspect iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .summary-panel {
+    background: var(--surface-sub);
+    border: 1.5px solid var(--purple);
+    border-radius: 16px;
+    padding: 14px;
+  }
+
+  .cpmk-badge {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--purple-text);
+    background: var(--purple-soft);
+    padding: 4px 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .summary-body {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text-sec);
+    margin-bottom: 12px;
+  }
+
+  .drawer-footer-btns {
+    display: flex;
+    gap: 8px;
+  }
+
+  .mini-action {
+    flex: 1;
+    padding: 9px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface-card);
+    color: var(--text);
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .mini-action.done-active {
+    background: rgba(16, 185, 129, 0.16);
+    border-color: var(--mint);
+    color: var(--mint-text);
+  }
+
+  .terms-panel {
+    background: var(--surface-sub);
+    border: 1.5px solid var(--mint);
+    border-radius: 16px;
+    padding: 14px;
+  }
+
+  .term-row {
+    padding-bottom: 9px;
+    margin-bottom: 9px;
+    border-bottom: 1px dashed var(--border);
+    font-size: 13.5px;
+    color: var(--text-sec);
+  }
+  .term-row:last-child {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: none;
+  }
+  .term-row strong {
+    color: var(--mint-text);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .empty-box {
+    display: none;
+    text-align: center;
+    background: var(--surface-card);
+    border: 1.5px dashed var(--border);
+    border-radius: 22px;
+    padding: 36px 20px;
+  }
+  .empty-box h3 { font-size: 16px; margin-bottom: 6px; }
+  .empty-box p { font-size: 13px; color: var(--text-muted); margin-bottom: 14px; }
+
+  /* Floating Bottom Bar */
+  .bottom-dock {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 32px);
+    max-width: 508px;
+    background: var(--surface-glass);
+    backdrop-filter: blur(14px);
+    border: 1.5px solid var(--border);
+    border-radius: 999px;
+    padding: 8px 10px 8px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    z-index: 60;
+  }
+
+  .progress-pill {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text);
+  }
+  .progress-pill span {
+    color: var(--mint);
+  }
+
+  .test-btn {
+    background: linear-gradient(135deg, #8b5cf6, #10b981);
+    color: #ffffff;
+    border: none;
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  /* Modal Backdrop & Dialogs */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 6, 23, 0.85);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 100;
+  }
+  .modal-backdrop.open { display: flex; }
+
+  .modal {
+    background: var(--surface-card);
+    border: 2px solid var(--purple);
+    border-radius: 24px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: 20px;
+    color: var(--text);
+  }
+
+  .modal h3 { font-size: 17px; margin-bottom: 4px; }
+  .modal p { font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px; }
+  .modal label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--purple-text);
+    margin-bottom: 5px;
+  }
+  .modal input, .modal select, .modal textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--surface-sub);
+    color: var(--text);
+    font-size: 13px;
+    margin-bottom: 10px;
+    outline: none;
+  }
+  .rubric-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 6px;
+  }
+
+  .rekap-box {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .rekap-list {
+    max-height: 130px;
+    overflow-y: auto;
+    background: var(--surface-sub);
+    border-radius: 12px;
+    padding: 10px;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+  .rekap-item {
+    padding: 5px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .rekap-item:last-child { border-bottom: none; }
+
+  .toast {
+    position: fixed;
+    bottom: 76px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--mint-bright);
+    color: #050811;
+    padding: 9px 18px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 800;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+    z-index: 200;
+  }
+  .toast.show { opacity: 1; }
+
+  @media (min-width: 768px) {
+    .app-shell {
+      max-width: 1080px;
+      padding: 24px 28px 40px 28px;
+    }
+
+    .slide-hero {
+      min-height: 250px;
+      padding: 28px 36px;
+    }
+
+    .hero-title {
+      font-size: 30px;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      max-width: 480px;
+    }
+
+    .stage-3d {
+      height: 195px;
+    }
+
+    .subject-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    #cardsContainer {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .topic-card {
+      margin-bottom: 0;
+    }
+  }
+
+  @media (min-width: 1120px) {
+    .app-shell {
+      max-width: 1200px;
+    }
+
+    #cardsContainer {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <!-- 0. Akun Google & Tambah Video Rekomendasi Custom -->
+  <div class="auth-bar">
+    <div class="user-chip" id="userStatusChip">
+      <div class="user-avatar" id="userAvatarBox">&#128100;</div>
+      <div>
+        <div id="userNameLabel">Mode Tamu (Belum Masuk Google)</div>
+        <div style="font-size:10.5px; color:var(--text-muted); font-weight:600;" id="userSubLabel">Masuk dengan akun Google untuk menambah rekomendasi video</div>
+      </div>
+    </div>
+
+    <div class="auth-actions">
+      <button type="button" class="btn-google" id="googleLoginBtn">
+        <span>G</span> Masuk dengan Google
+      </button>
+      <button type="button" class="btn-add-video" id="openAddVideoBtn">
+        + Tambah Video
+      </button>
+      <button type="button" class="btn-logout" id="googleLogoutBtn" style="display:none;">
+        Keluar
+      </button>
+    </div>
+  </div>
+
+  <!-- 1. Search & Theme Toggle -->
+  <div class="search-wrap">
+    <div class="search-box">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" id="searchInput" placeholder="Cari mata kuliah, topik, atau istilah...">
+      <button type="button" class="clear-btn" id="clearBtn">&#10005;</button>
+    </div>
+    <button type="button" class="theme-toggle-btn" id="themeToggleBtn" title="Ganti Tema Gelap / Terang" aria-label="Ganti Tema">
+      &#9728;&#65039;
+    </button>
+  </div>
+
+  <div class="tag-strip">
+    <button type="button" class="hash-chip active" data-course="all">#SemuaMatkul</button>
+    <button type="button" class="hash-chip" data-course="Dasar Teknik Elektro">#TeknikElektro</button>
+    <button type="button" class="hash-chip" data-course="Kimia">#KimiaBaterai</button>
+    <button type="button" class="hash-chip" data-course="Kalkulus Dasar">#Kalkulus</button>
+    <button type="button" class="hash-chip" data-course="Pemrograman Dasar">#Python</button>
+    <button type="button" class="hash-chip" data-course="Bahasa Indonesia">#EYD_V</button>
+  </div>
+
+  <!-- 2. Interactive 3D Swipeable Hero Carousel -->
+  <section class="carousel-section">
+    <div class="carousel-track" id="carouselTrack">
+
+      <!-- Slide 1: 3D Character Hero -->
+      <div class="carousel-slide slide-hero" id="heroSlide">
+        <div class="hero-grid">
+          <div>
+            <h1 class="hero-title">Mulai Petualangan Belajarmu!</h1>
+            <p class="hero-sub">Materi kuliah Teknik Elektro UNPAM terkurasi simpel &amp; praktis.</p>
+            <button type="button" class="swipe-cta" id="goToCoursesBtn">
+              Pilih Mata Kuliah &#9654;
+            </button>
+          </div>
+
+          <!-- Interactive 3D Stage -->
+          <div class="stage-3d" id="stage3d" title="Sentuh atau gerakkan untuk efek 3D">
+            <span class="float-bolt">&#9889;</span>
+            <span class="float-atom">&#9883;&#65039;</span>
+            <span class="float-chip">RPS &bull; S1</span>
+            <button type="button" class="play-orb" id="quickPlayBtn" title="Putar materi terbaru">&#9654;</button>
+
+            <svg width="136" height="154" viewBox="0 0 140 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="bgGlow" x1="20" y1="10" x2="120" y2="150" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#8B5CF6" stop-opacity="0.45"/>
+                  <stop offset="1" stop-color="#34D399" stop-opacity="0.15"/>
+                </linearGradient>
+                <linearGradient id="hoodieGrad" x1="35" y1="95" x2="105" y2="155" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#6366F1"/>
+                  <stop offset="1" stop-color="#312E81"/>
+                </linearGradient>
+                <linearGradient id="skinGrad" x1="50" y1="35" x2="90" y2="90" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#FDE68A"/>
+                  <stop offset="1" stop-color="#F59E0B"/>
+                </linearGradient>
+                <linearGradient id="hpBand" x1="36" y1="22" x2="104" y2="65" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#A3E635"/>
+                  <stop offset="1" stop-color="#34D399"/>
+                </linearGradient>
+              </defs>
+
+              <circle cx="70" cy="82" r="56" fill="url(#bgGlow)"/>
+              <path d="M36 146C36 122 50 106 70 106C90 106 104 122 104 146H36Z" fill="url(#hoodieGrad)"/>
+              <path d="M60 106L70 128L80 106H60Z" fill="#34D399"/>
+              <rect x="62" y="88" width="16" height="20" rx="8" fill="#D97706"/>
+              <rect x="46" y="38" width="48" height="54" rx="24" fill="url(#skinGrad)"/>
+              <path d="M44 56C44 37 56 28 72 28C88 28 96 38 96 54C92 46 82 43 70 44C58 45 49 49 44 56Z" fill="#1E293B"/>
+              <circle cx="60" cy="64" r="3.2" fill="#0F172A"/>
+              <circle cx="80" cy="64" r="3.2" fill="#0F172A"/>
+              <path d="M63 75C66 79 74 79 77 75" stroke="#0F172A" stroke-width="2.8" stroke-linecap="round"/>
+
+              <path d="M41 62V54C41 36 53 23 70 23C87 23 99 36 99 54V62" stroke="url(#hpBand)" stroke-width="6" stroke-linecap="round"/>
+              <rect x="35" y="53" width="11" height="22" rx="5.5" fill="#A3E635" stroke="#0F172A" stroke-width="2"/>
+              <rect x="94" y="53" width="11" height="22" rx="5.5" fill="#A3E635" stroke="#0F172A" stroke-width="2"/>
+
+              <rect x="14" y="96" width="54" height="34" rx="8" fill="#0F172A" fill-opacity="0.88" stroke="#38BDF8" stroke-width="1.8"/>
+              <path d="M22 108H36L40 103H58M22 118H32L37 123H56" stroke="#38BDF8" stroke-width="1.6" stroke-linecap="round"/>
+              <circle cx="58" cy="103" r="2.2" fill="#A3E635"/>
+              <circle cx="56" cy="123" r="2.2" fill="#FB7185"/>
+            </svg>
+          </div>
+        </div>
+
+        <div style="margin-top: 12px; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.18); text-align: center;">
+          <div class="credit-shimmer" style="
+            border-radius: 16px;
+            padding: 8px 14px;
+            font-size: 11px;
+            line-height: 1.45;
+            color: #f8fafc;
+            max-width: 100%;
+          ">
+            <div>Dikembangkan oleh <strong style="color: #a3e635;">Kelompok 4 Bahasa Indonesia</strong></div>
+            <div style="color: #e2e8f0; margin: 2px 0;">
+            &bull; Khusnul Adim (261010100279) 
+    <br>        &bull; Stefanus Gian Praditya (261010100313)
+            </div>
+            <div style="color: #93c5fd; font-weight: 700;">Prodi Teknik Elektro UNPAM</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2: Mata Kuliah 1 - 6 -->
+      <div class="carousel-slide slide-subjects">
+        <div class="slide-header">
+          <h3>Pilih Mata Kuliah (1/2)</h3>
+          <span>Geser lagi &rarr;</span>
+        </div>
+        <div class="subject-grid">
+          <button type="button" class="subj-tile active" data-course="all">
+            <span class="subj-icon" style="background: rgba(56,189,248,0.18); color:#0284c7;">&#127760;</span>
+            <span class="subj-name">Semua (9 Matkul)</span>
+          </button>
+          <button type="button" class="subj-tile" data-course="Dasar Teknik Elektro">
+            <span class="subj-icon" style="background: rgba(163,230,53,0.22); color:#65a30d;">&#9889;</span>
+            <span class="subj-name">Dasar Teknik Elektro</span>
+          </button>
+          <button type="button" class="subj-tile" data-course="Kalkulus Dasar">
+            <span class="subj-icon" style="background: rgba(251,113,133,0.18); color:#e11d48;">&#8747;</span>
+            <span class="subj-name">Kalkulus Dasar</span>
+          </button>
+          <button type="button" class="subj-tile" data-course="Fisika">
+            <span class="subj-icon" style="background: rgba(139,92,246,0.20); color:#7c3aed;">&#9883;&#65039;</span>
+            <span class="subj-name">Fisika</span>
+          </button>
+          <button type="button" class="subj-tile" data-course="Aljabar Linear">
+            <span class="subj-icon" style="background: rgba(251,191,36,0.22); color:#d97706;">&#128202;</span>
+            <span class="subj-name">Aljabar Linear</span>
+          </button>
+          <button type="button" class="subj-tile" data-course="Kimia">
+            <span class="subj-icon" style="background: rgba(52,211,153,0.20); color:#059669;">&#129514;</span>
+            <span class="subj-name">Kimia</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Slide 3: Mata Kuliah 7 - 9 -->
+      <div class="carousel-slide slide-subjects">
+        <div class="slide-header">
+          <h3>Pilih Mata Kuliah (2/2)</h3>
+          <span>&larr; Geser balik</span>
+        </div>
+        <div class="subject-grid">
+          <button type="button" class="subj-tile" data-course="Pemrograman Dasar">
+            <span class="subj-icon" style="background: rgba(56,189,248,0.18); color:#0284c7;">&#128187;</span>
+            <span class="subj-name">Pemrograman Dasar</span>
+          </button>
+          <button type="button" class="subj-tile" data-course="Basic English for International Communication (BEIC)">
+            <span class="subj-icon" style="background: rgba(244,114,182,0.18); color:#db2777;">&#127468;&#127463;</span>
+            <span class="subj-name">Basic English (BEIC)</span>
+          </button>
+          <button type="button" class="subj-tile" data-course="Bahasa Indonesia">
+            <span class="subj-icon" style="background: rgba(251,113,133,0.18); color:#e11d48;">&#128221;</span>
+            <span class="subj-name">Bahasa Indonesia</span>
+          </button>
+          <button type="button" class="subj-tile" data-course="Pendidikan Kewarganegaraan (PKn)">
+            <span class="subj-icon" style="background: rgba(251,191,36,0.22); color:#d97706;">&#127963;&#65039;</span>
+            <span class="subj-name">Pendidikan Kewarganegaraan</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="carousel-dots" id="carouselDots">
+      <button type="button" class="dot-btn active" data-slide="0" aria-label="Slide 1"></button>
+      <button type="button" class="dot-btn" data-slide="1" aria-label="Slide 2"></button>
+      <button type="button" class="dot-btn" data-slide="2" aria-label="Slide 3"></button>
+    </div>
+  </section>
+
+  <!-- 2B. Pengingat & Update Mingguan (Google Tasks) -->
+  <section class="weekly-card">
+    <div class="weekly-top">
+      <h3>&#9200; Pengingat &amp; Update Mingguan</h3>
+      <span class="weekly-badge">Update Tiap Minggu</span>
+    </div>
+    <p class="weekly-desc">
+      Dirancang untuk mahasiswa kelas pekerja agar jadwal tontonan video kurasi dan tugas kuliah mingguan tidak terlewat.
+    </p>
+    <ul class="weekly-tasks">
+      <li><label><input type="checkbox" class="weekly-cb" data-wid="w1"> Tonton minimal 2 video kurasi materi pekan ini</label></li>
+      <li><label><input type="checkbox" class="weekly-cb" data-wid="w2"> Cek rekomendasi video baru / update catatan pekanan</label></li>
+      <li><label><input type="checkbox" class="weekly-cb" data-wid="w3"> Selesaikan tugas mingguan kuliah &amp; setel pengingat rutin</label></li>
+    </ul>
+    <div class="weekly-actions">
+      <a href="https://tasks.google.com/" target="_blank" rel="noopener noreferrer" class="tasks-link-btn">
+        &#10003; Buka Google Tasks
+      </a>
+      <button type="button" class="mini-action" id="copyWeeklyTaskBtn" style="flex:0 1 auto; padding:7px 13px; font-size:12px;">
+        &#128203; Salin Teks Tugas Mingguan
+      </button>
+    </div>
+  </section>
+
+  <!-- 3. Topic List Header -->
+  <div class="section-head">
+    <h2>Topik Pembelajaran</h2>
+    <span class="filter-badge" id="activeFilterLabel">Semua (22 Topik)</span>
+  </div>
+
+  <!-- 4. Progressive Disclosure Topic Cards -->
+  <div id="cardsContainer"></div>
+
+  <div class="empty-box" id="emptyBox">
+    <h3>Topik tidak ditemukan</h3>
+    <p>Coba kata kunci lain seperti <b>Baterai</b>, <b>Ohm</b>, <b>Limit</b>, atau <b>EYD</b>.</p>
+    <button type="button" class="mini-action" id="resetFilterBtn" style="max-width: 180px; margin: 0 auto;">Tampilkan Semua</button>
+  </div>
+</div>
+
+<!-- 5. Floating Bottom Dock -->
+<div class="bottom-dock">
+  <div class="progress-pill">Progres: <span id="progressText">0 / 22</span> Selesai</div>
+  <button type="button" class="test-btn" id="openModalBtn">&#9997; Uji Responden</button>
+</div>
+
+<!-- 6A. Modal Tambah Video Rekomendasi Custom -->
+<div class="modal-backdrop" id="addVideoModal">
+  <div class="modal">
+    <h3>Tambah Video Rekomendasi</h3>
+    <p>Bagikan video YouTube pilihanmu agar teman sekelas mudah belajar dan bisa langsung di-share ke WhatsApp.</p>
+
+    <label for="vidCourse">Mata Kuliah</label>
+    <select id="vidCourse">
+      <option value="Dasar Teknik Elektro">Dasar Teknik Elektro</option>
+      <option value="Kalkulus Dasar">Kalkulus Dasar</option>
+      <option value="Fisika">Fisika</option>
+      <option value="Aljabar Linear">Aljabar Linear</option>
+      <option value="Kimia">Kimia</option>
+      <option value="Pemrograman Dasar">Pemrograman Dasar</option>
+      <option value="Basic English for International Communication (BEIC)">Basic English for International Communication (BEIC)</option>
+      <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+      <option value="Pendidikan Kewarganegaraan (PKn)">Pendidikan Kewarganegaraan (PKn)</option>
+    </select>
+
+    <label for="vidWeek">Pekan / Topik</label>
+    <input type="text" id="vidWeek" placeholder="Contoh: Pekan 4 atau Rekomendasi Teman">
+
+    <label for="vidTitle">Judul Video / Topik</label>
+    <input type="text" id="vidTitle" placeholder="Contoh: 04. Analisis Rangkaian Mesh & Superposisi">
+
+    <label for="vidUrl">Tautan atau ID Video YouTube</label>
+    <input type="text" id="vidUrl" placeholder="Tempel link https://youtu.be/... atau ID video">
+
+    <label for="vidSummary">Ringkasan / Alasan Direkomendasikan</label>
+    <textarea id="vidSummary" rows="2" placeholder="Jelaskan singkat inti materi atau bagian menit penting..."></textarea>
+
+    <label for="vidTerm">Istilah Penting (Opsional, format: Istilah: Penjelasan)</label>
+    <input type="text" id="vidTerm" placeholder="Contoh: Superposisi: Prinsip menjumlahkan respon tiap sumber">
+
+    <div class="modal-actions">
+      <button type="button" class="mini-action" id="closeAddVideoBtn">Batal</button>
+      <button type="button" class="test-btn" id="saveCustomVideoBtn" style="padding: 10px 18px;">Simpan Video</button>
+    </div>
+  </div>
+</div>
+
+<!-- 6B. Modal Uji Keterbacaan HCDT -->
+<div class="modal-backdrop" id="feedbackModal">
+  <div class="modal">
+    <h3>Uji Keterbacaan (Testing HCDT)</h3>
+    <p>Penilaian singkat pengalaman pengguna terhadap antarmuka baru.</p>
+
+    <label for="fbName">Nama &amp; NIM Responden</label>
+    <input type="text" id="fbName" placeholder="Contoh: Raka Pratama (261010100xxx)">
+
+    <div class="rubric-grid">
+      <div>
+        <label for="u1">U-1: Kemudahan Navigasi</label>
+        <select id="u1">
+          <option value="5">5 - Sangat Mudah</option>
+          <option value="4">4 - Mudah</option>
+          <option value="3">3 - Cukup</option>
+          <option value="2">2 - Sulit</option>
+        </select>
+      </div>
+      <div>
+        <label for="u2">U-2: Keterbacaan EYD V</label>
+        <select id="u2">
+          <option value="5">5 - Sangat Jelas</option>
+          <option value="4">4 - Jelas</option>
+          <option value="3">3 - Cukup</option>
+          <option value="2">2 - Kurang</option>
+        </select>
+      </div>
+      <div>
+        <label for="u3">U-3: Manfaat Glosarium</label>
+        <select id="u3">
+          <option value="5">5 - Sangat Membantu</option>
+          <option value="4">4 - Membantu</option>
+          <option value="3">3 - Cukup</option>
+          <option value="2">2 - Kurang</option>
+        </select>
+      </div>
+      <div>
+        <label for="u4">U-4: Efisiensi Waktu</label>
+        <select id="u4">
+          <option value="5">5 - Sangat Hemat</option>
+          <option value="4">4 - Hemat Waktu</option>
+          <option value="3">3 - Cukup</option>
+          <option value="2">2 - Kurang</option>
+        </select>
+      </div>
+    </div>
+
+    <label for="u5">U-5: Kenyamanan Tampilan di HP</label>
+    <select id="u5">
+      <option value="5">5 - Sangat Nyaman &amp; Simpel</option>
+      <option value="4">4 - Nyaman</option>
+      <option value="3">3 - Cukup</option>
+      <option value="2">2 - Kurang</option>
+    </select>
+
+    <label for="fbNote">Catatan / Saran Responden</label>
+    <textarea id="fbNote" rows="2" placeholder="Tulis masukan singkat..."></textarea>
+
+    <div class="modal-actions">
+      <button type="button" class="mini-action" id="closeModalBtn">Tutup</button>
+      <button type="button" class="test-btn" id="submitFeedbackBtn" style="padding: 10px 18px;">Simpan Skor</button>
+    </div>
+
+    <div class="rekap-box">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <strong style="font-size:12.5px;" id="rekapCountLabel">Rekap Responden (0)</strong>
+        <button type="button" class="mini-action" id="copyRekapBtn" style="flex:0 1 auto; padding:5px 10px; font-size:11.5px;">Salin Rekap</button>
+      </div>
+      <div class="rekap-list" id="rekapList">
+        <div style="color:var(--text-muted); font-style:italic;">Belum ada data responden.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Tersalin!</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+  import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    deleteDoc,
+    doc,
+    onSnapshot,
+    query,
+    orderBy,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+  // GANTI DENGAN KONFIGURASI FIREBASE MILIKMU DI CONSOLE.FIREBASE.GOOGLE.COM
+  
+ const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyAES3d8CcmKH9XhOnouHAHKeLYL6z1IDXM",
+  authDomain: "portal-kurasi-kel4.firebaseapp.com",
+  projectId: "portal-kurasi-kel4",
+  storageBucket: "portal-kurasi-kel4.firebasestorage.app",
+  messagingSenderId: "619987412204",
+  appId: "1:619987412204:web:1cfcfbec9ba292f80831c9"
+};
+
+  const baseModulesData = [
+    {
+      id: "dte-1",
+      course: "Dasar Teknik Elektro",
+      week: "Pekan 1",
+      title: "01. Besaran Dasar Listrik: Muatan, Arus, Tegangan & Daya",
+      cpmk: "CPMK-1: Besaran pokok kelistrikan SI & konvensi tanda pasif.",
+      summary: "Arus listrik (I) merupakan laju aliran muatan listrik per satuan waktu dalam satuan ampere (A). Tegangan listrik (V) menyatakan energi untuk memindahkan satu satuan muatan antar-dua titik dalam satuan volt (V), sedangkan daya listrik (P) adalah hasil kali tegangan dan kuat arus dalam satuan watt (W).",
+      ytId: "F_vLWkkOywA",
+      glossary: [
+        { term: "Beda Potensial", def: "Selisih energi potensial listrik per satuan muatan di antara dua titik pada suatu penghantar." },
+        { term: "Konvensi Tanda Pasif", def: "Aturan arah arus masuk ke terminal positif komponen untuk menandai penyerapan daya." }
+      ]
+    },
+    {
+      id: "dte-2",
+      course: "Dasar Teknik Elektro",
+      week: "Pekan 2",
+      title: "02. Hukum Ohm dan Hukum Kirchhoff (KCL & KVL)",
+      cpmk: "CPMK-2: Analisis distribusi arus dan tegangan pada rangkaian DC.",
+      summary: "Hukum Ohm menyatakan kuat arus pada penghantar logam berbanding lurus dengan beda potensial pada suhu tetap. Hukum Arus Kirchhoff (KCL) menegaskan jumlah aljabar arus pada satu titik simpul sama dengan nol, sedangkan Hukum Tegangan Kirchhoff (KVL) menyatakan jumlah aljabar tegangan dalam satu lintasan tertutup (loop) bernilai nol.",
+      ytId: "HsLLq6Rm5tU",
+      glossary: [
+        { term: "Simpul (Node)", def: "Titik pertemuan dua atau lebih cabang penghantar di dalam suatu rangkaian listrik." },
+        { term: "Lintasan Tertutup (Loop)", def: "Jalur konduktif tertutup yang berawal dan berakhir pada simpul yang sama." }
+      ]
+    },
+    {
+      id: "dte-3",
+      course: "Dasar Teknik Elektro",
+      week: "Pekan 3",
+      title: "03. Rangkaian Seri-Paralel Resistor & Pembagi Tegangan",
+      cpmk: "CPMK-2: Penyederhanaan jaringan resistor menjadi hambatan ekuivalen.",
+      summary: "Konfigurasi seri mengalirkan kuat arus yang sama pada setiap resistor dengan tegangan terbagi proporsional. Konfigurasi paralel memiliki beda potensial yang sama pada tiap cabang dengan arus terbagi berbanding terbalik terhadap nilai hambatannya.",
+      ytId: "7v3t3t0O2j8",
+      glossary: [
+        { term: "Hambatan Pengganti", def: "Nilai resistansi tunggal yang menggantikan keseluruhan jaringan resistor tanpa mengubah arus sumber." },
+        { term: "Pembagi Tegangan", def: "Rangkaian seri resistor yang menghasilkan tegangan keluaran sebesar fraksi dari tegangan masukan." }
+      ]
+    },
+    {
+      id: "kal-1",
+      course: "Kalkulus Dasar",
+      week: "Pekan 1",
+      title: "01. Sistem Bilangan Real, Pertidaksamaan & Nilai Mutlak",
+      cpmk: "CPMK-1: Himpunan penyelesaian pertidaksamaan pada garis bilangan real.",
+      summary: "Sistem bilangan real mencakup gabungan bilangan rasional dan irasional pada garis bilangan kontinu. Saat mengalikan kedua ruas pertidaksamaan dengan bilangan negatif, tanda ketidaksamaan wajib dibalik. Nilai mutlak menyatakan jarak bilangan dari titik nol sehingga nilainya selalu tak-negatif.",
+      ytId: "fUvUeU8SemE",
+      glossary: [
+        { term: "Selang (Interval)", def: "Himpunan bagian bilangan real yang memuat seluruh bilangan di antara dua titik batas." },
+        { term: "Nilai Mutlak", def: "Besaran skalar suatu bilangan real tanpa memperhatikan tanda positif maupun negatifnya." }
+      ]
+    },
+    {
+      id: "kal-2",
+      course: "Kalkulus Dasar",
+      week: "Pekan 2",
+      title: "02. Konsep Limit Fungsi Aljabar dan Kekontinuan",
+      cpmk: "CPMK-2: Evaluasi limit fungsi dan pengujian syarat kekontinuan.",
+      summary: "Limit fungsi menggambarkan perilaku nilai f(x) saat peubah bebas x mendekati konstanta c dari kiri maupun kanan. Jika substitusi langsung menghasilkan bentuk tak tentu 0/0, dilakukan pemfaktoran aljabar atau perkalian sekawan.",
+      ytId: "riXcZT2ICjA",
+      glossary: [
+        { term: "Bentuk Tak Tentu", def: "Ekspresi matematis seperti 0/0 yang nilainya belum dapat dipastikan sebelum penyederhanaan aljabar." },
+        { term: "Kekontinuan", def: "Sifat fungsi di titik c ketika nilai fungsi dan nilai limitnya ada serta bernilai sama." }
+      ]
+    },
+    {
+      id: "kal-3",
+      course: "Kalkulus Dasar",
+      week: "Pekan 3",
+      title: "03. Definisi Turunan (Diferensial) dan Aturan Rantai",
+      cpmk: "CPMK-3: Perhitungan laju perubahan sesaat dan fungsi komposisi.",
+      summary: "Turunan fungsi f'(x) menyatakan gradien garis singgung kurva sekaligus laju perubahan sesaat. Dalam teknik elektro, turunan memodelkan perubahan arus terhadap waktu pada induktor maupun tegangan pada kapasitor.",
+      ytId: "5yfh5cf4-0w",
+      glossary: [
+        { term: "Aturan Rantai", def: "Teorema untuk menurunkan fungsi komposisi dengan mengalikan turunan fungsi luar dan fungsi dalam." },
+        { term: "Gradien Singgung", def: "Kemiringan garis lurus yang menyentuh kurva fungsi tepat pada satu titik lokal." }
+      ]
+    },
+    {
+      id: "fis-1",
+      course: "Fisika",
+      week: "Pekan 1",
+      title: "01. Besaran Vektor, Komponen, dan Perkalian Vektor",
+      cpmk: "CPMK-1: Penjumlahan vektor analitis serta perkalian titik dan silang.",
+      summary: "Besaran vektor memiliki magnitudo dan arah dalam ruang tiga dimensi. Perkalian titik (dot product) menghasilkan besaran skalar, sedangkan perkalian silang (cross product) menghasilkan vektor baru yang tegak lurus bidang asal.",
+      ytId: "fNk_zzaMoSs",
+      glossary: [
+        { term: "Resultan Vektor", def: "Vektor tunggal yang mewakili hasil penjumlahan dua atau lebih vektor." },
+        { term: "Vektor Satuan", def: "Vektor dengan magnitudo tepat satu yang menunjukkan arah sumbu koordinat." }
+      ]
+    },
+    {
+      id: "fis-2",
+      course: "Fisika",
+      week: "Pekan 2",
+      title: "02. Hukum Coulomb dan Kuat Medan Elektrostatis",
+      cpmk: "CPMK-2: Perhitungan gaya elektrostatis dan medan listrik muatan titik.",
+      summary: "Besar gaya elektrostatis antara dua muatan statis berbanding lurus dengan hasil kali kedua muatan dan berbanding terbalik dengan kuadrat jarak pisahnya.",
+      ytId: "k1726_l4f88",
+      glossary: [
+        { term: "Permitivitas Vakum", def: "Konstanta fisika yang menggambarkan kemampuan ruang hampa meneruskan medan listrik." },
+        { term: "Prinsip Superposisi", def: "Gaya total merupakan jumlah vektor dari gaya tiap muatan secara terpisah." }
+      ]
+    },
+    {
+      id: "fis-3",
+      course: "Fisika",
+      week: "Pekan 3",
+      title: "03. Hukum Gauss dan Fluks Listrik Permukaan Tertutup",
+      cpmk: "CPMK-2: Pemanfaatan simetri distribusi muatan menggunakan Hukum Gauss.",
+      summary: "Total fluks listrik yang menembus permukaan tertutup sembarang sebanding dengan jumlah muatan listrik neto yang dilingkupi permukaan tersebut.",
+      ytId: "q1-h43-4p2w",
+      glossary: [
+        { term: "Fluks Listrik", def: "Banyaknya garis medan listrik yang menembus suatu luas permukaan secara tegak lurus." },
+        { term: "Permukaan Gauss", def: "Permukaan khayal tertutup tiga dimensi yang mengikuti simetri distribusi muatan." }
+      ]
+    },
+    {
+      id: "alj-1",
+      course: "Aljabar Linear",
+      week: "Pekan 1",
+      title: "01. Operasi Dasar Matriks dan Matriks Transpos",
+      cpmk: "CPMK-1: Penjumlahan, perkalian matriks, dan operasi transpos.",
+      summary: "Matriks adalah susunan bilangan berbentuk persegi panjang menurut baris dan kolom. Perkalian dua matriks mensyaratkan jumlah kolom matriks pertama sama dengan jumlah baris matriks kedua.",
+      ytId: "XkY2DOUCWMU",
+      glossary: [
+        { term: "Ordo Matriks", def: "Ukuran matriks yang dinyatakan dalam pasangan jumlah baris kali kolom (m × n)." },
+        { term: "Matriks Transpos", def: "Matriks baru hasil pertukaran posisi elemen baris menjadi kolom." }
+      ]
+    },
+    {
+      id: "alj-2",
+      course: "Aljabar Linear",
+      week: "Pekan 2",
+      title: "02. Sistem Persamaan Linear (SPL) & Eliminasi Gauss-Jordan",
+      cpmk: "CPMK-2: Penyelesaian SPL menggunakan Operasi Baris Elementer (OBE).",
+      summary: "SPL digunakan dalam analisis rangkaian listrik metode mesh dan simpul. Operasi Baris Elementer (OBE) mereduksi matriks diperbesar menjadi bentuk eselon baris tereduksi.",
+      ytId: "eDb6iugi6Hk",
+      glossary: [
+        { term: "Matriks Diperbesar", def: "Gabungan matriks koefisien SPL dengan kolom konstanta di sisi kanan." },
+        { term: "Eselon Baris Tereduksi", def: "Bentuk baku matriks hasil OBE dengan elemen utama bernilai 1." }
+      ]
+    },
+    {
+      id: "kim-1",
+      course: "Kimia",
+      week: "Pekan 1",
+      title: "01. Struktur Atom, Elektron Valensi & Sifat Konduktor",
+      cpmk: "CPMK-1: Kaitan konfigurasi elektron dengan konduktor dan semikonduktor.",
+      summary: "Elektron pada kulit terluar (elektron valensi) menentukan daya hantar listrik bahan. Logam memiliki elektron valensi bebas sebagai konduktor, sedangkan silikon dan germanium menjadi dasar semikonduktor.",
+      ytId: "FSyAehMdpyI",
+      glossary: [
+        { term: "Elektron Valensi", def: "Elektron pada tingkat energi terluar atom yang menentukan sifat ikatan dan konduktivitas." },
+        { term: "Semikonduktor", def: "Material dengan konduktivitas di antara konduktor dan isolator (misalnya silikon)." }
+      ]
+    },
+    {
+      id: "kim-2",
+      course: "Kimia",
+      week: "Pekan 2",
+      title: "02. Reaksi Redoks & Prinsip Kerja Baterai (Sel Volta)",
+      cpmk: "CPMK-2: Reaksi redoks spontan pada Sel Volta & pengisian ulang baterai.",
+      summary: "Sel Volta (seperti baterai lemon, Voltaic Pile, dan baterai primer) mengubah energi kimia dari reaksi redoks spontan logam Zn dan Cu menjadi energi listrik. Saat baterai sekunder diisi ulang (recharging), terjadi proses elektrolisis untuk membalikkan reaksi kimianya.",
+      ytId: "Q1_pZfslIkc",
+      glossary: [
+        { term: "Sel Volta", def: "Sel elektrokimia yang menghasilkan arus listrik dari reaksi redoks spontan." },
+        { term: "Deret Volta", def: "Urutan potensial elektroda logam untuk menentukan logam yang melepas atau menerima elektron." },
+        { term: "Elektrolisis", def: "Penggunaan arus listrik eksternal untuk memaksa reaksi kimia tak-spontan saat mengisi ulang baterai." }
+      ]
+    },
+    {
+      id: "pem-1",
+      course: "Pemrograman Dasar",
+      week: "Pekan 1",
+      title: "01. Algoritma, Diagram Alir (Flowchart) & Pseudocode",
+      cpmk: "CPMK-1: Perancangan langkah logis komputasi sebelum pengodean.",
+      summary: "Algoritma adalah urutan langkah logis terdefinisi untuk menyelesaikan masalah komputasi, yang divisualisasikan melalui flowchart atau ditulis dalam bentuk pseudocode.",
+      ytId: "6hfOvs8pY1k",
+      glossary: [
+        { term: "Flowchart", def: "Bagan simbol geometris standar yang menggambarkan urutan proses dan keputusan program." },
+        { term: "Pseudocode", def: "Deskripsi algoritma tingkat tinggi menyerupai kode program yang mudah dibaca manusia." }
+      ]
+    },
+    {
+      id: "pem-2",
+      course: "Pemrograman Dasar",
+      week: "Pekan 2",
+      title: "02. Variabel, Tipe Data Primitif & Operator Python",
+      cpmk: "CPMK-2: Deklarasi variabel dan operasi aritmetika-logika di Python.",
+      summary: "Python menggunakan tipe data integer, float, string, dan boolean. Konversi tipe data (type casting) diperlukan saat mengolah masukan pengguna agar dapat dihitung secara matematis.",
+      ytId: "khKv-8q7YmY",
+      glossary: [
+        { term: "Type Casting", def: "Pengubahan satu tipe data ke tipe data lain secara eksplisit, misalnya string ke float." },
+        { term: "Operator Logika", def: "Penghubung ekspresi boolean seperti and, or, dan not." }
+      ]
+    },
+    {
+      id: "pem-3",
+      course: "Pemrograman Dasar",
+      week: "Pekan 3",
+      title: "03. Percabangan (If-Elif-Else) dan Perulangan (Loop)",
+      cpmk: "CPMK-3: Implementasi percabangan bersyarat dan iterasi program.",
+      summary: "Percabangan memilih blok kode berdasarkan kondisi True/False, sedangkan perulangan (for dan while) mengeksekusi instruksi berulang selama syarat terpenuhi.",
+      ytId: "DZwmZ8Usvnk",
+      glossary: [
+        { term: "Iterasi", def: "Satu kali siklus eksekusi blok instruksi di dalam struktur perulangan." },
+        { term: "Indentasi", def: "Spasi awal baris di Python untuk menandai cakupan blok kode." }
+      ]
+    },
+    {
+      id: "eng-1",
+      course: "Basic English for International Communication (BEIC)",
+      week: "Pekan 1",
+      title: "01. Self-Introduction & Academic Presentation Expressions",
+      cpmk: "CPMK-1: Perkenalan diri akademik dan pembukaan presentasi formal.",
+      summary: "Komunikasi akademik bahasa Inggris menggunakan ragam formal (formal register) serta frasa penanda transisi (signposting language) agar alur presentasi mudah diikuti audiens.",
+      ytId: "Bg_tJvCA8zw",
+      glossary: [
+        { term: "Signposting Language", def: "Frasa penanda transisi untuk mengarahkan pendengar antar-bagian presentasi." },
+        { term: "Formal Register", def: "Ragam bahasa baku yang digunakan dalam lingkungan kampus dan dunia kerja." }
+      ]
+    },
+    {
+      id: "eng-2",
+      course: "Basic English for International Communication (BEIC)",
+      week: "Pekan 2",
+      title: "02. Simple Present Tense for Technical Descriptions",
+      cpmk: "CPMK-2: Deskripsi fungsi perangkat kelistrikan dalam bahasa Inggris.",
+      summary: "Simple Present Tense digunakan untuk menjelaskan fakta ilmiah dan prinsip kerja alat kelistrikan yang bersifat tetap, dengan memperhatikan kesesuaian subjek dan kata kerja.",
+      ytId: "nvVdIJ0las0",
+      glossary: [
+        { term: "Subject-Verb Agreement", def: "Kesesuaian tata bahasa antara subjek tunggal/jamak dengan bentuk kata kerjanya." },
+        { term: "Passive Voice", def: "Kalimat pasif yang menonjolkan proses atau objek kerja dibandingkan pelakunya." }
+      ]
+    },
+    {
+      id: "ind-1",
+      course: "Bahasa Indonesia",
+      week: "Pekan 1",
+      title: "01. Kaidah Ejaan Bahasa Indonesia (EYD Edisi V)",
+      cpmk: "CPMK-1: Penggunaan huruf kapital, huruf miring, tanda baca & kata baku.",
+      summary: "EYD Edisi V mengatur penulisan huruf miring untuk istilah asing yang belum diserap ke KBBI serta pemisahan kata depan (di, ke, dari) dari kata tempat.",
+      ytId: "GmUWu7cTjL0",
+      glossary: [
+        { term: "Laras Ilmiah", def: "Ragam bahasa Indonesia baku yang lugas, objektif, dan bebas makna ganda." },
+        { term: "Kata Serapan", def: "Kosakata bahasa asing/daerah yang telah disesuaikan ejaannya ke bahasa Indonesia." }
+      ]
+    },
+    {
+      id: "ind-2",
+      course: "Bahasa Indonesia",
+      week: "Pekan 2",
+      title: "02. Penyusunan Kalimat Efektif & Paragraf Akademik",
+      cpmk: "CPMK-2: Kalimat efektif yang hemat kata, paralel, dan koheren.",
+      summary: "Kalimat efektif memiliki kejelasan subjek-predikat, keparalelan bentuk, dan bebas kata mubazir (pleonasme), sehingga membentuk paragraf akademik yang kohesif dan koheren.",
+      ytId: "f5tN3_aA9yQ",
+      glossary: [
+        { term: "Kohesi", def: "Kepaduan hubungan bentuk antar-kalimat melalui kata hubung dan kata ganti." },
+        { term: "Koherensi", def: "Kelogisan hubungan makna antar-gagasan dalam satu kesatuan paragraf." }
+      ]
+    },
+    {
+      id: "pkn-1",
+      course: "Pendidikan Kewarganegaraan (PKn)",
+      week: "Pekan 1",
+      title: "01. Hakikat PKn dan Identitas Nasional di Era Digital",
+      cpmk: "CPMK-1: Urgensi PKn dalam membentuk karakter warga negara cerdas.",
+      summary: "Identitas nasional merupakan jati diri bangsa Indonesia yang bersumber dari nilai Pancasila, bahasa persatuan, dan kebinekaan budaya sebagai filter positif di era globalisasi teknologi.",
+      ytId: "13k0L7-F69Y",
+      glossary: [
+        { term: "Identitas Nasional", def: "Karakter kolektif dan nilai budaya yang menjadi ciri khas suatu bangsa." },
+        { term: "Civic Virtue", def: "Kebajikan kewarganegaraan berupa sikap mengutamakan kepentingan umum." }
+      ]
+    },
+    {
+      id: "pkn-2",
+      course: "Pendidikan Kewarganegaraan (PKn)",
+      week: "Pekan 2",
+      title: "02. Konstitusi UUD NRI 1945 & Hak-Kewajiban Warga Negara",
+      cpmk: "CPMK-2: Keseimbangan pelaksanaan hak dan kewajiban konstitusional.",
+      summary: "UUD NRI 1945 menjamin hak asasi warga negara sekaligus menuntut pemenuhan kewajiban hukum dan sosial secara seimbang demi mewujudkan ketertiban umum.",
+      ytId: "p7pE3sY1w4w",
+      glossary: [
+        { term: "Konstitusionalisme", def: "Paham pembatasan kekuasaan negara melalui hukum dasar untuk menjamin hak warga." },
+        { term: "Supremasi Hukum", def: "Prinsip penempatan hukum pada posisi tertinggi bagi seluruh warga dan penyelenggara negara." }
+      ]
+    }
+  ];
+
+  // State
+  let customModules = JSON.parse(localStorage.getItem("hcdt_custom_videos") || "[]");
+  let studiedIds = JSON.parse(localStorage.getItem("hcdt_studied_ids") || "[]");
+  let respondents = JSON.parse(localStorage.getItem("hcdt_respondents") || "[]");
+  let currentUser = null;
+  let activeCourse = "all";
+  let searchQuery = "";
+  let openPanels = {};
+
+  function getAllModules() {
+    return [...customModules, ...baseModulesData];
+  }
+
+  // Firebase Setup (aman walau belum diganti konfigurasinya)
+  let auth = null;
+  let db = null;
+  const provider = new GoogleAuthProvider();
+  const isFirebaseConfigured = FIREBASE_CONFIG.apiKey && !FIREBASE_CONFIG.apiKey.startsWith("GANTI_");
+
+  if (isFirebaseConfigured) {
+    try {
+      const app = initializeApp(FIREBASE_CONFIG);
+      auth = getAuth(app);
+      db = getFirestore(app);
+    } catch (err) {
+      console.warn("Firebase init warning:", err);
+    }
+  }
+
+  function showToast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add("show");
+    clearTimeout(window.toastTimer);
+    window.toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2300);
+  }
+
+  // Ekstrak YouTube ID dari berbagai format URL atau ID langsung
+  function extractYouTubeId(input) {
+    const clean = (input || "").trim();
+    if (/^[a-zA-Z0-9_-]{11}$/.test(clean)) return clean;
+    const match = clean.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    return match ? match[1] : null;
+  }
+
+  // Auth UI Update
+  const userNameLabel = document.getElementById("userNameLabel");
+  const userSubLabel = document.getElementById("userSubLabel");
+  const userAvatarBox = document.getElementById("userAvatarBox");
+  const googleLoginBtn = document.getElementById("googleLoginBtn");
+  const googleLogoutBtn = document.getElementById("googleLogoutBtn");
+
+  function updateAuthUI() {
+    if (currentUser) {
+      userNameLabel.textContent = currentUser.displayName || "Pengguna Google";
+      userSubLabel.textContent = currentUser.email || "Akun Google terhubung";
+      userAvatarBox.innerHTML = currentUser.photoURL
+        ? `<img src="${currentUser.photoURL}" alt="Foto" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`
+        : "&#10004;";
+      googleLoginBtn.style.display = "none";
+      googleLogoutBtn.style.display = "inline-block";
+    } else {
+      userNameLabel.textContent = isFirebaseConfigured ? "Belum Masuk Google" : "Mode Lokal (Siap Konfigurasi Firebase)";
+      userSubLabel.textContent = "Masuk dengan akun Google untuk menambah rekomendasi video";
+      userAvatarBox.innerHTML = "&#128100;";
+      googleLoginBtn.style.display = "inline-flex";
+      googleLogoutBtn.style.display = "none";
+    }
+  }
+
+  googleLoginBtn.addEventListener("click", async () => {
+    if (!auth) {
+      showToast("Isi FIREBASE_CONFIG dulu untuk login Google");
+      return;
+    }
+    try {
+      await signInWithPopup(auth, provider);
+      showToast("Berhasil masuk dengan Google!");
+    } catch (err) {
+      showToast("Login dibatalkan atau gagal");
+    }
+  });
+
+  googleLogoutBtn.addEventListener("click", async () => {
+    if (!auth) return;
+    await signOut(auth);
+    showToast("Keluar dari akun Google");
+  });
+
+  if (auth) {
+    onAuthStateChanged(auth, user => {
+      currentUser = user;
+      updateAuthUI();
+      renderCards();
+    });
+  }
+
+  if (db) {
+    const qVideos = query(collection(db, "curated_videos"), orderBy("createdAt", "desc"));
+    onSnapshot(qVideos, snapshot => {
+      customModules = snapshot.docs.map(d => {
+        const data = d.data();
+        return {
+          id: "fs-" + d.id,
+          fsDocId: d.id,
+          uid: data.uid || "",
+          course: data.course || "Dasar Teknik Elektro",
+          week: data.week || "Rekomendasi Teman",
+          title: data.title || "Video Rekomendasi",
+          cpmk: data.cpmk || "Rekomendasi Mahasiswa (Komunitas)",
+          summary: data.summary || "",
+          ytId: data.ytId,
+          contributor: data.contributor || "Mahasiswa",
+          isCustom: true,
+          glossary: Array.isArray(data.glossary) && data.glossary.length > 0
+            ? data.glossary
+            : [{ term: "Kontributor", def: `Direkomendasikan oleh ${data.contributor || "Mahasiswa"}` }]
+        };
+      });
+      updateProgress();
+      renderCards();
+    }, err => {
+      console.warn("Firestore snapshot warning:", err);
+    });
+  }
+
+  // Modal Tambah Video Custom
+  const addVideoModal = document.getElementById("addVideoModal");
+  document.getElementById("openAddVideoBtn").addEventListener("click", () => {
+    if (isFirebaseConfigured && !currentUser) {
+      showToast("Silakan Masuk dengan Google dulu!");
+      return;
+    }
+    addVideoModal.classList.add("open");
+  });
+
+  document.getElementById("closeAddVideoBtn").addEventListener("click", () => {
+    addVideoModal.classList.remove("open");
+  });
+
+  addVideoModal.addEventListener("click", e => {
+    if (e.target === addVideoModal) addVideoModal.classList.remove("open");
+  });
+
+  document.getElementById("saveCustomVideoBtn").addEventListener("click", async () => {
+    const course = document.getElementById("vidCourse").value;
+    const week = document.getElementById("vidWeek").value.trim() || "Rekomendasi Teman";
+    const title = document.getElementById("vidTitle").value.trim();
+    const rawUrl = document.getElementById("vidUrl").value.trim();
+    const summary = document.getElementById("vidSummary").value.trim();
+    const rawTerm = document.getElementById("vidTerm").value.trim();
+
+    const ytId = extractYouTubeId(rawUrl);
+    if (!title || !ytId) {
+      showToast("Isi judul & tautan YouTube yang valid!");
+      return;
+    }
+
+    const glossary = [];
+    if (rawTerm) {
+      const parts = rawTerm.split(":");
+      glossary.push({
+        term: parts[0].trim() || "Istilah Kunci",
+        def: parts.slice(1).join(":").trim() || "Catatan istilah dari kontributor."
+      });
+    }
+
+    const contributorName = currentUser?.displayName || "Mahasiswa UNPAM";
+    const newItem = {
+      id: "custom-" + Date.now(),
+      uid: currentUser?.uid || "local-user",
+      course,
+      week,
+      title,
+      cpmk: `Rekomendasi oleh ${contributorName}`,
+      summary: summary || "Video rekomendasi pembelajaran yang dibagikan oleh mahasiswa.",
+      ytId,
+      contributor: contributorName,
+      isCustom: true,
+      glossary
+    };
+
+    if (db && currentUser) {
+      try {
+        await addDoc(collection(db, "curated_videos"), {
+          uid: currentUser.uid,
+          contributor: contributorName,
+          course,
+          week,
+          title,
+          cpmk: newItem.cpmk,
+          summary: newItem.summary,
+          ytId,
+          glossary,
+          createdAt: serverTimestamp()
+        });
+        showToast("Video tersimpan ke cloud!");
+      } catch (err) {
+        showToast("Gagal simpan ke cloud, cek aturan Firestore");
+        return;
+      }
+    } else {
+      customModules.unshift(newItem);
+      localStorage.setItem("hcdt_custom_videos", JSON.stringify(customModules));
+      showToast("Video rekomendasi ditambahkan!");
+    }
+
+    document.getElementById("vidTitle").value = "";
+    document.getElementById("vidUrl").value = "";
+    document.getElementById("vidSummary").value = "";
+    document.getElementById("vidTerm").value = "";
+    addVideoModal.classList.remove("open");
+    updateProgress();
+    renderCards();
+  });
+
+  window.deleteCustomVideo = async function(id) {
+    const target = customModules.find(m => m.id === id);
+    if (!target) return;
+
+    if (db && target.fsDocId) {
+      try {
+        await deleteDoc(doc(db, "curated_videos", target.fsDocId));
+        showToast("Video dihapus");
+      } catch (err) {
+        showToast("Tidak bisa menghapus video ini");
+      }
+    } else {
+      customModules = customModules.filter(m => m.id !== id);
+      localStorage.setItem("hcdt_custom_videos", JSON.stringify(customModules));
+      showToast("Video dihapus");
+      updateProgress();
+      renderCards();
+    }
+  };
+
+  // Share ke WhatsApp
+  window.shareToWhatsApp = function(id) {
+    const item = getAllModules().find(m => m.id === id);
+    if (!item) return;
+    const portalUrl = window.location.href;
+    const pengirim = item.contributor ? `\nRekomendasi: *${item.contributor}*` : "";
+    const msg =
+      `📚 *Portal Kurasi Video Kuliah (Kel. 4 — Teknik Elektro UNPAM)*\n` +
+      `Mata Kuliah: *${item.course}* (${item.week})${pengirim}\n` +
+      `Topik: *${item.title}*\n` +
+      `YouTube: https://www.youtube.com/watch?v=${item.ytId}\n` +
+      `Portal: ${portalUrl}`;
+
+    const waUrl = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+    window.open(waUrl, "_blank", "noopener,noreferrer");
+  };
+
+  // Weekly Tasks Persistence & Copy
+  document.querySelectorAll(".weekly-cb").forEach(cb => {
+    const key = "hcdt_weekly_" + cb.dataset.wid;
+    cb.checked = localStorage.getItem(key) === "true";
+    cb.addEventListener("change", () => localStorage.setItem(key, cb.checked));
+  });
+
+  document.getElementById("copyWeeklyTaskBtn").addEventListener("click", () => {
+    const teks = `Pengingat Mingguan Portal Kurasi Kuliah (Kel. 4): Cek update video materi pekan ini & kerjakan tugas kuliah — ${window.location.href}`;
+    navigator.clipboard.writeText(teks).then(() => {
+      showToast("Teks pengingat mingguan disalin!");
+    });
+  });
+
+  // Pengaturan Tema Gelap & Terang
+  const themeToggleBtn = document.getElementById("themeToggleBtn");
+  function applyTheme(theme) {
+    if (theme === "light") {
+      document.body.classList.add("light-mode");
+      themeToggleBtn.innerHTML = "&#127769;";
+      themeToggleBtn.title = "Beralih ke Tema Gelap";
+    } else {
+      document.body.classList.remove("light-mode");
+      themeToggleBtn.innerHTML = "&#9728;&#65039;";
+      themeToggleBtn.title = "Beralih ke Tema Terang";
+    }
+    localStorage.setItem("hcdt_theme", theme);
+  }
+
+  applyTheme(localStorage.getItem("hcdt_theme") || "dark");
+
+  themeToggleBtn.addEventListener("click", () => {
+    const isLight = document.body.classList.contains("light-mode");
+    const nextTheme = isLight ? "dark" : "light";
+    applyTheme(nextTheme);
+    showToast(nextTheme === "light" ? "Tema Terang aktif" : "Tema Gelap aktif");
+  });
+
+  // DOM Elements
+  const cardsContainer = document.getElementById("cardsContainer");
+  const emptyBox = document.getElementById("emptyBox");
+  const activeFilterLabel = document.getElementById("activeFilterLabel");
+  const progressText = document.getElementById("progressText");
+  const searchInput = document.getElementById("searchInput");
+  const clearBtn = document.getElementById("clearBtn");
+  const toastEl = document.getElementById("toast");
+
+  // Carousel & 3D Interaction
+  const carouselTrack = document.getElementById("carouselTrack");
+  const dotBtns = document.querySelectorAll(".dot-btn");
+  const stage3d = document.getElementById("stage3d");
+
+  carouselTrack.addEventListener("scroll", () => {
+    const idx = Math.round(carouselTrack.scrollLeft / carouselTrack.clientWidth);
+    dotBtns.forEach((d, i) => d.classList.toggle("active", i === idx));
+  });
+
+  dotBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const idx = Number(btn.dataset.slide);
+      carouselTrack.scrollTo({ left: idx * carouselTrack.clientWidth, behavior: "smooth" });
+    });
+  });
+
+  document.getElementById("goToCoursesBtn").addEventListener("click", () => {
+    carouselTrack.scrollTo({ left: carouselTrack.clientWidth, behavior: "smooth" });
+  });
+
+  document.getElementById("quickPlayBtn").addEventListener("click", () => {
+    selectCourse("Kimia");
+    toggleDrawer("kim-2", "video");
+    setTimeout(() => {
+      const el = document.getElementById("card-kim-2");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 100);
+  });
+
+  stage3d.addEventListener("pointermove", e => {
+    const rect = stage3d.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 22;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -22;
+    stage3d.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+  });
+  stage3d.addEventListener("pointerleave", () => {
+    stage3d.style.transform = "rotateY(0deg) rotateX(0deg)";
+  });
+
+  function updateProgress() {
+    const total = getAllModules().length;
+    progressText.textContent = `${studiedIds.length} / ${total}`;
+  }
+
+  function selectCourse(course) {
+    activeCourse = course;
+    document.querySelectorAll(".subj-tile").forEach(t => {
+      t.classList.toggle("active", t.dataset.course === course);
+    });
+    document.querySelectorAll(".hash-chip").forEach(c => {
+      c.classList.toggle("active", c.dataset.course === course);
+    });
+    renderCards();
+  }
+
+  document.querySelectorAll(".subj-tile, .hash-chip").forEach(btn => {
+    btn.addEventListener("click", () => selectCourse(btn.dataset.course));
+  });
+
+  function renderCards() {
+    const allModules = getAllModules();
+    const q = searchQuery.trim().toLowerCase();
+    const filtered = allModules.filter(item => {
+      const matchCourse = activeCourse === "all" || item.course === activeCourse;
+      const gText = (item.glossary || []).map(g => `${g.term} ${g.def}`).join(" ").toLowerCase();
+      const matchQ = !q ||
+        item.course.toLowerCase().includes(q) ||
+        item.title.toLowerCase().includes(q) ||
+        item.summary.toLowerCase().includes(q) ||
+        (item.contributor || "").toLowerCase().includes(q) ||
+        gText.includes(q);
+      return matchCourse && matchQ;
+    });
+
+    const shortLabel = activeCourse === "all" ? "Semua" : activeCourse.split("(")[0].trim();
+    activeFilterLabel.textContent = `${shortLabel} (${filtered.length})`;
+
+    if (filtered.length === 0) {
+      cardsContainer.innerHTML = "";
+      emptyBox.style.display = "block";
+      return;
+    }
+
+    emptyBox.style.display = "none";
+    cardsContainer.innerHTML = filtered.map(item => {
+      const isStudied = studiedIds.includes(item.id);
+      const activeTab = openPanels[item.id] || null;
+      const canDelete = item.isCustom && (!currentUser || !item.uid || item.uid === currentUser.uid);
+
+      return `
+        <article class="topic-card ${isStudied ? "studied" : ""}" id="card-${item.id}">
+          <div class="card-meta">
+            <span class="course-pill">${item.course}</span>
+            <span class="week-label">${item.week} ${isStudied ? "&bull; &#10004; Selesai" : ""}</span>
+          </div>
+
+          <h3 class="topic-title">${item.title}</h3>
+
+          <div class="contributor-line">
+            <span>${item.isCustom ? `&#11088; Oleh: <b>${item.contributor || "Mahasiswa"}</b>` : "&#128218; Kurasi RPS UNPAM"}</span>
+            ${canDelete ? `<button type="button" class="del-custom-btn" onclick="deleteCustomVideo('${item.id}')">Hapus</button>` : ""}
+          </div>
+
+          <div class="tool-pills">
+            <button type="button" class="tool-btn btn-video ${activeTab === "video" ? "active" : ""}" onclick="toggleDrawer('${item.id}', 'video')">
+              &#9654; Video
+            </button>
+            <button type="button" class="tool-btn btn-summary ${activeTab === "summary" ? "active" : ""}" onclick="toggleDrawer('${item.id}', 'summary')">
+              &#128221; Ringkasan
+            </button>
+            <button type="button" class="tool-btn btn-terms ${activeTab === "terms" ? "active" : ""}" onclick="toggleDrawer('${item.id}', 'terms')">
+              &#128214; Istilah
+            </button>
+          </div>
+
+          <button type="button" class="btn-wa-share" onclick="shareToWhatsApp('${item.id}')">
+            &#128172; Bagikan ke WhatsApp Kelas
+          </button>
+
+          <!-- Drawer 1: Video Player -->
+          <div class="drawer ${activeTab === "video" ? "open" : ""}">
+            <div class="video-box">
+              <div class="video-topbar">
+                <span>&#127909; Pemutar YouTube</span>
+                <a href="https://www.youtube.com/watch?v=${item.ytId}" target="_blank" rel="noopener noreferrer" class="ext-yt-link">&#8599; Buka di YouTube</a>
+              </div>
+              <div class="video-aspect">
+                ${activeTab === "video" ? `<iframe src="https://www.youtube-nocookie.com/embed/${item.ytId}?autoplay=1&rel=0" title="${item.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>` : ""}
+              </div>
+            </div>
+          </div>
+
+          <!-- Drawer 2: Ringkasan Konsep -->
+          <div class="drawer ${activeTab === "summary" ? "open" : ""}">
+            <div class="summary-panel">
+              <div class="cpmk-badge">${item.cpmk}</div>
+              <p class="summary-body">${item.summary}</p>
+              <div class="drawer-footer-btns">
+                <button type="button" class="mini-action" onclick="copySummary('${item.id}')">&#128203; Salin</button>
+                <button type="button" class="mini-action ${isStudied ? "done-active" : ""}" onclick="toggleStudied('${item.id}')">
+                  ${isStudied ? "&#10004; Sudah Paham" : "&#9744; Tandai Selesai"}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Drawer 3: Glosarium Istilah -->
+          <div class="drawer ${activeTab === "terms" ? "open" : ""}">
+            <div class="terms-panel">
+              ${(item.glossary || []).map(g => `
+                <div class="term-row">
+                  <strong>${g.term}</strong>
+                  <span>${g.def}</span>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </article>
+      `;
+    }).join("");
+  }
+
+  window.toggleDrawer = function(id, tabName) {
+    if (openPanels[id] === tabName) {
+      openPanels[id] = null;
+    } else {
+      if (tabName === "video") {
+        Object.keys(openPanels).forEach(k => {
+          if (openPanels[k] === "video") openPanels[k] = null;
+        });
+      }
+      openPanels[id] = tabName;
+    }
+    renderCards();
+  };
+
+  window.copySummary = function(id) {
+    const item = getAllModules().find(m => m.id === id);
+    if (!item) return;
+    navigator.clipboard.writeText(`${item.title}\n\n${item.summary}`).then(() => {
+      showToast("Ringkasan disalin!");
+    });
+  };
+
+  window.toggleStudied = function(id) {
+    if (studiedIds.includes(id)) {
+      studiedIds = studiedIds.filter(x => x !== id);
+    } else {
+      studiedIds.push(id);
+      showToast("Ditandai selesai!");
+    }
+    localStorage.setItem("hcdt_studied_ids", JSON.stringify(studiedIds));
+    updateProgress();
+    renderCards();
+  };
+
+  searchInput.addEventListener("input", e => {
+    searchQuery = e.target.value;
+    clearBtn.style.display = searchQuery ? "block" : "none";
+    renderCards();
+  });
+
+  clearBtn.addEventListener("click", () => {
+    searchQuery = "";
+    searchInput.value = "";
+    clearBtn.style.display = "none";
+    renderCards();
+  });
+
+  document.getElementById("resetFilterBtn").addEventListener("click", () => {
+    searchQuery = "";
+    searchInput.value = "";
+    clearBtn.style.display = "none";
+    selectCourse("all");
+  });
+
+  // Modal Testing HCDT
+  const feedbackModal = document.getElementById("feedbackModal");
+  const rekapList = document.getElementById("rekapList");
+  const rekapCountLabel = document.getElementById("rekapCountLabel");
+
+  function renderRespondents() {
+    rekapCountLabel.textContent = `Rekap Responden (${respondents.length})`;
+    if (respondents.length === 0) {
+      rekapList.innerHTML = `<div style="color:var(--text-muted); font-style:italic;">Belum ada data responden.</div>`;
+      return;
+    }
+    rekapList.innerHTML = respondents.map((r, i) => `
+      <div class="rekap-item">
+        <strong>${i + 1}. ${r.name}</strong> &bull; Rata-rata: ${r.avg}/5
+        ${r.note ? `<br><span style="color:var(--text-muted);">"${r.note}"</span>` : ""}
+      </div>
+    `).join("");
+  }
+
+  document.getElementById("openModalBtn").addEventListener("click", () => {
+    renderRespondents();
+    feedbackModal.classList.add("open");
+  });
+
+  document.getElementById("closeModalBtn").addEventListener("click", () => {
+    feedbackModal.classList.remove("open");
+  });
+
+  feedbackModal.addEventListener("click", e => {
+    if (e.target === feedbackModal) feedbackModal.classList.remove("open");
+  });
+
+  document.getElementById("submitFeedbackBtn").addEventListener("click", () => {
+    const name = document.getElementById("fbName").value.trim() || "Responden Anonim";
+    const u1 = Number(document.getElementById("u1").value);
+    const u2 = Number(document.getElementById("u2").value);
+    const u3 = Number(document.getElementById("u3").value);
+    const u4 = Number(document.getElementById("u4").value);
+    const u5 = Number(document.getElementById("u5").value);
+    const note = document.getElementById("fbNote").value.trim();
+    const avg = ((u1 + u2 + u3 + u4 + u5) / 5).toFixed(2);
+
+    respondents.push({ name, u1, u2, u3, u4, u5, avg, note });
+    localStorage.setItem("hcdt_respondents", JSON.stringify(respondents));
+    document.getElementById("fbName").value = "";
+    document.getElementById("fbNote").value = "";
+    renderRespondents();
+    showToast("Penilaian tersimpan!");
+  });
+
+  document.getElementById("copyRekapBtn").addEventListener("click", () => {
+    if (respondents.length === 0) return showToast("Belum ada data.");
+    const totalAvg = (respondents.reduce((s, r) => s + Number(r.avg), 0) / respondents.length).toFixed(2);
+    let out = `REKAP UJI KETERBACAAN HCDT (${respondents.length} Responden | Rata-rata: ${totalAvg}/5.00)\n`;
+    respondents.forEach((r, i) => {
+      out += `${i + 1}. ${r.name} [U1:${r.u1}, U2:${r.u2}, U3:${r.u3}, U4:${r.u4}, U5:${r.u5} | Avg:${r.avg}]${r.note ? ` - ${r.note}` : ""}\n`;
+    });
+    navigator.clipboard.writeText(out).then(() => showToast("Rekap disalin!"));
+  });
+
+  updateAuthUI();
+  updateProgress();
+  renderCards();
+</script>
+</body>
+</html>
