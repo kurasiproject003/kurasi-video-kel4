@@ -77,14 +77,14 @@
       radial-gradient(circle at 85% 20%, var(--bg-grad-2) 0%, transparent 38%);
     color: var(--text);
     min-height: 100vh;
-    padding-bottom: 130px;
+    padding-bottom: 136px;
     transition: background-color 0.25s ease, color 0.25s ease;
   }
 
   .app-shell {
     max-width: 540px;
     margin: 0 auto;
-    padding: 16px 16px 28px 16px;
+    padding: 16px 16px 32px 16px;
     transition: max-width 0.25s ease;
   }
 
@@ -92,15 +92,21 @@
   .auth-bar {
     background: var(--surface-card);
     border: 1.5px solid var(--border);
-    border-radius: 18px;
-    padding: 10px 14px;
+    border-radius: 16px;
+    padding: 9px 12px;
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
     box-shadow: var(--shadow-card);
+  }
+
+  .auth-bar .btn-google,
+  .auth-bar .btn-add-video {
+    padding: 6px 11px;
+    font-size: 11.5px;
   }
 
   .user-chip {
@@ -192,11 +198,13 @@
     border-radius: 999px;
     border: 2px solid var(--purple);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    display: flex;
+    align-items: center;
   }
 
   .search-box input {
     width: 100%;
-    padding: 12px 38px 12px 42px;
+    padding: 12px 92px 12px 40px;
     border: none;
     background: transparent;
     color: var(--text);
@@ -204,6 +212,23 @@
     font-weight: 500;
     outline: none;
   }
+
+  .search-submit-btn {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, #8b5cf6, #10b981);
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    padding: 7px 13px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .search-submit-btn:active { transform: translateY(-50%) scale(0.95); }
 
   .search-box input::placeholder {
     color: var(--text-muted);
@@ -221,7 +246,7 @@
 
   .clear-btn {
     position: absolute;
-    right: 10px;
+    right: 62px;
     top: 50%;
     transform: translateY(-50%);
     width: 24px;
@@ -254,36 +279,7 @@
   }
   .theme-toggle-btn:active { transform: scale(0.92); }
 
-  .tag-strip {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    padding-bottom: 4px;
-    margin-bottom: 14px;
-    scrollbar-width: none;
-  }
-  .tag-strip::-webkit-scrollbar { display: none; }
-
-  .hash-chip {
-    white-space: nowrap;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 5px 12px;
-    border-radius: 999px;
-    background: var(--surface-card);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .hash-chip.active {
-    background: var(--purple-soft);
-    border-color: var(--purple);
-    color: var(--purple-text);
-  }
-
-  /* 2. Interactive 3D Swipeable Hero Carousel */
+  /* 2. Interactive Swipeable Hero Carousel */
   .carousel-section {
     margin-bottom: 18px;
   }
@@ -306,18 +302,25 @@
     padding: 20px;
     position: relative;
     overflow: hidden;
-    min-height: 235px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
   }
 
   .slide-hero {
+    justify-content: space-between;
     background: linear-gradient(135deg, #2e1065 0%, #1e1b4b 52%, #064e3b 100%);
     border: 2px solid transparent;
     background-clip: padding-box;
     box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35), inset 0 0 0 2px rgba(167, 139, 250, 0.45);
-    perspective: 900px;
+  }
+
+  .slide-subjects {
+    justify-content: flex-start;
+    gap: 14px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow-card);
   }
 
   body.light-mode .slide-hero {
@@ -327,11 +330,95 @@
 
   .hero-grid {
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    align-items: center;
-    gap: 12px;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: 14px;
     position: relative;
     z-index: 2;
+  }
+
+  .hero-copy-wrap {
+    position: relative;
+    border-radius: 18px;
+    padding: 18px 14px 18px 8px;
+    overflow: hidden;
+    min-height: 236px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: radial-gradient(circle at 68% 42%, rgba(255, 255, 255, 0.10), transparent 65%);
+  }
+
+  .hero-copy-bg {
+    position: absolute;
+    right: 2px;
+    top: 4px;
+    width: 68%;
+    height: calc(100% - 4px);
+    object-fit: contain;
+    object-position: center 15%;
+    transform: translateY(0) scale(1.08);
+    -webkit-mask-image:
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, #000 14%, #000 66%, transparent 100%),
+      linear-gradient(to right, rgba(0, 0, 0, 0.16) 0%, rgba(0, 0, 0, 0.58) 24%, #000 48%, #000 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, #000 14%, #000 66%, transparent 100%),
+      linear-gradient(to right, rgba(0, 0, 0, 0.16) 0%, rgba(0, 0, 0, 0.58) 24%, #000 48%, #000 100%);
+    mask-composite: intersect;
+    opacity: 0.96;
+    pointer-events: none;
+    z-index: 0;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.28));
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .hero-copy-scrim {
+    display: none;
+  }
+
+  .hero-copy-content {
+    position: relative;
+    z-index: 2;
+    max-width: 58%;
+    padding-right: 4px;
+  }
+
+  .hero-copy-content .hero-title {
+    text-shadow: 0 2px 14px rgba(15, 23, 42, 0.78), 0 0 10px rgba(15, 23, 42, 0.45);
+  }
+
+  .hero-copy-content .hero-sub {
+    text-shadow: 0 2px 10px rgba(15, 23, 42, 0.72), 0 0 8px rgba(15, 23, 42, 0.4);
+  }
+
+  @media (min-width: 640px) {
+    .hero-copy-wrap {
+      height: 100%;
+      min-height: 100%;
+      padding: 12px 12px 14px 8px;
+    }
+    .hero-copy-bg {
+      top: 6px;
+      right: 2px;
+      width: 66%;
+      height: calc(100% - 6px);
+      object-fit: contain;
+      object-position: center 15%;
+      transform: translateY(0) scale(1.06);
+      -webkit-mask-image:
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, #000 14%, #000 66%, transparent 100%),
+        linear-gradient(to right, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.62) 24%, #000 48%, #000 100%);
+      -webkit-mask-composite: source-in;
+      mask-image:
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, #000 14%, #000 66%, transparent 100%),
+        linear-gradient(to right, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.62) 24%, #000 48%, #000 100%);
+      mask-composite: intersect;
+      opacity: 0.97;
+    }
+    .hero-copy-content {
+      max-width: 58%;
+    }
   }
 
   .hero-title {
@@ -367,72 +454,93 @@
   }
   .swipe-cta:active { transform: scale(0.96); }
 
-  .stage-3d {
+  /* Video Profil Portal Tanpa Kontainer/Bingkai Kotak (Menyatu dengan Area Hero) */
+  .hero-video-slot {
     position: relative;
     width: 100%;
-    height: 175px;
+    aspect-ratio: 16 / 9;
+    max-width: 100%;
+    max-height: 220px;
+    margin: 0 auto;
+    border-radius: 14px;
+    overflow: hidden;
+    background: transparent;
+    border: none;
+    box-shadow: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    transform-style: preserve-3d;
-    transition: transform 0.15s ease-out;
-    cursor: grab;
   }
 
-  .float-bolt {
-    position: absolute;
-    top: 4px;
-    left: 2px;
-    font-size: 24px;
-    filter: drop-shadow(0 0 10px #a3e635);
-    animation: floatY 3s ease-in-out infinite;
+  .hero-video-poster {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.32);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
   }
 
-  .float-atom {
-    position: absolute;
-    top: 2px;
-    right: 4px;
-    font-size: 22px;
-    filter: drop-shadow(0 0 10px #38bdf8);
-    animation: floatY 3.6s ease-in-out infinite reverse;
-  }
-
-  .float-chip {
-    position: absolute;
-    bottom: 6px;
-    left: 6px;
-    background: #0f172a;
-    border: 1.5px solid #a3e635;
-    color: #a3e635;
-    font-size: 10px;
-    font-weight: 800;
-    padding: 4px 8px;
-    border-radius: 8px;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
-    animation: floatY 2.8s ease-in-out infinite;
-  }
-
-  .play-orb {
-    position: absolute;
-    bottom: 4px;
-    right: 4px;
-    width: 38px;
-    height: 38px;
+  .hero-play-circle {
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     background: linear-gradient(135deg, #8b5cf6, #ec4899);
-    border: 2px solid #ffffff;
+    border: 2.5px solid #ffffff;
     color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-    box-shadow: 0 6px 16px rgba(139, 92, 246, 0.5);
-    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0 8px 22px rgba(236, 72, 153, 0.45);
+    transition: transform 0.18s ease;
+  }
+  .hero-video-poster:hover .hero-play-circle,
+  .hero-video-poster:active .hero-play-circle {
+    transform: scale(1.07);
   }
 
-  @keyframes floatY {
-    0%, 100% { transform: translateY(0px) translateZ(20px); }
-    50% { transform: translateY(-7px) translateZ(30px); }
+  .hero-video-caption {
+    font-size: 12px;
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.3;
+  }
+
+  .hero-video-subcap {
+    font-size: 10.5px;
+    color: #cbd5e1;
+    font-weight: 600;
+  }
+
+  .hero-video-slot iframe,
+  .hero-video-slot video {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 14px;
+    border: 0;
+    background: transparent;
+    display: block;
+  }
+
+  @media (min-width: 640px) {
+    .hero-video-slot {
+      max-height: 245px;
+      align-self: center;
+    }
   }
 
   .credit-shimmer {
@@ -473,12 +581,6 @@
     45%, 100% { left: 150%; }
   }
 
-  .slide-subjects {
-    background: var(--surface);
-    border: 2px solid var(--border);
-    box-shadow: var(--shadow-card);
-  }
-
   .slide-header {
     display: flex;
     justify-content: space-between;
@@ -502,20 +604,23 @@
   .subject-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 11px;
+    flex: 1;
+    align-content: start;
   }
 
   .subj-tile {
     background: var(--surface-tile);
     border: 1.5px solid var(--border);
     border-radius: 16px;
-    padding: 12px;
+    padding: 13px 11px;
     display: flex;
     align-items: center;
     gap: 10px;
     color: var(--text);
     text-align: left;
     cursor: pointer;
+    min-width: 0;
     transition: all 0.2s;
   }
 
@@ -538,10 +643,37 @@
     flex-shrink: 0;
   }
 
+  .subj-info {
+    min-width: 0;
+    flex: 1;
+  }
+
   .subj-name {
-    font-size: 12.8px;
+    display: block;
+    font-size: 12.5px;
     font-weight: 700;
-    line-height: 1.25;
+    line-height: 1.28;
+    word-break: break-word;
+  }
+
+  .subj-count {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  .slide-note {
+    margin-top: auto;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: var(--surface-sub);
+    border: 1px dashed var(--border);
+    font-size: 11.5px;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.4;
   }
 
   .carousel-dots {
@@ -567,7 +699,7 @@
     background: var(--mint-bright);
   }
 
-  /* 2B. Weekly Update & Google Tasks Reminder Card */
+  /* 2B. Weekly Update & Custom Task -> Google Tasks Card */
   .weekly-card {
     background: var(--surface-card);
     border: 1.5px solid var(--border);
@@ -594,16 +726,6 @@
     color: var(--text);
   }
 
-  .weekly-badge {
-    font-size: 11px;
-    font-weight: 800;
-    color: var(--mint-text);
-    background: rgba(16, 185, 129, 0.14);
-    border: 1px solid var(--mint);
-    padding: 3px 10px;
-    border-radius: 999px;
-  }
-
   .weekly-desc {
     font-size: 12.5px;
     color: var(--text-muted);
@@ -627,6 +749,98 @@
     cursor: pointer;
   }
 
+  .custom-task-box {
+    background: var(--surface-sub);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 11px 12px;
+    margin-bottom: 12px;
+    display: grid;
+    gap: 8px;
+  }
+
+  .custom-task-label {
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--purple-text);
+  }
+
+  .custom-task-box input {
+    width: 100%;
+    padding: 9px 11px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface-card);
+    color: var(--text);
+    font-size: 12.5px;
+    outline: none;
+  }
+
+  .custom-task-box input:focus {
+    border-color: var(--mint);
+  }
+
+  .course-inline-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 2px 0 4px 0;
+  }
+  .course-inline-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .course-inline-chip {
+    flex: 0 0 auto;
+    border: 1px solid var(--border);
+    background: var(--surface-card);
+    color: var(--text-sec);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.16s ease;
+  }
+
+  .course-inline-chip:hover,
+  .course-inline-chip.active {
+    background: rgba(16, 185, 129, 0.16);
+    border-color: var(--mint);
+    color: var(--mint-text);
+  }
+
+  .category-chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .task-cat-chip {
+    border: 1px solid var(--border);
+    background: var(--surface-card);
+    color: var(--text-sec);
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+
+  .task-cat-chip:hover {
+    border-color: var(--purple);
+    color: var(--purple-text);
+  }
+
+  .task-cat-chip.active {
+    background: var(--purple-soft);
+    border-color: var(--purple);
+    color: var(--purple-text);
+  }
+
   .weekly-actions {
     display: flex;
     gap: 8px;
@@ -634,17 +848,18 @@
   }
 
   .tasks-link-btn {
-    background: var(--purple-soft);
-    color: var(--purple-text);
-    border: 1.5px solid var(--purple);
+    background: linear-gradient(135deg, #8b5cf6, #10b981);
+    color: #ffffff;
+    border: none;
     text-decoration: none;
-    padding: 7px 13px;
+    padding: 8px 14px;
     border-radius: 999px;
     font-size: 12px;
     font-weight: 800;
     display: inline-flex;
     align-items: center;
     gap: 5px;
+    cursor: pointer;
   }
 
   /* 3. Section Heading */
@@ -655,6 +870,7 @@
     margin-bottom: 14px;
     gap: 8px;
     flex-wrap: wrap;
+    scroll-margin-top: 72px;
   }
 
   .section-head h2 {
@@ -961,7 +1177,7 @@
   /* Floating Bottom Bar */
   .bottom-dock {
     position: fixed;
-    bottom: 20px;
+    bottom: 12px;
     left: 50%;
     transform: translateX(-50%);
     width: calc(100% - 32px);
@@ -970,11 +1186,11 @@
     backdrop-filter: blur(14px);
     border: 1.5px solid var(--border);
     border-radius: 999px;
-    padding: 8px 10px 8px 18px;
+    padding: 6px 8px 6px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24);
     z-index: 60;
   }
 
@@ -1075,28 +1291,44 @@
   }
   .rekap-item:last-child { border-bottom: none; }
 
+  /* Notifikasi Toast di Tengah Atas Transparan */
   .toast {
     position: fixed;
-    bottom: 76px;
+    top: 16px;
     left: 50%;
-    transform: translateX(-50%);
-    background: var(--mint-bright);
-    color: #050811;
-    padding: 9px 18px;
+    transform: translateX(-50%) translateY(-8px);
+    background: rgba(15, 23, 42, 0.48);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: rgba(255, 255, 255, 0.88);
+    padding: 8px 18px;
     border-radius: 999px;
-    font-size: 12.5px;
-    font-weight: 800;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    max-width: calc(100vw - 32px);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s;
-    z-index: 200;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 9999;
   }
-  .toast.show { opacity: 1; }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  @media (min-width: 640px) {
+    .hero-grid {
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 18px;
+    }
+  }
 
   @media (min-width: 768px) {
     .app-shell {
       max-width: 1080px;
-      padding: 24px 28px 40px 28px;
+      padding: 24px 28px 44px 28px;
     }
 
     .slide-hero {
@@ -1111,10 +1343,6 @@
     .hero-sub {
       font-size: 15px;
       max-width: 480px;
-    }
-
-    .stage-3d {
-      height: 195px;
     }
 
     .subject-grid {
@@ -1175,84 +1403,46 @@
   <div class="search-wrap">
     <div class="search-box">
       <span class="search-icon">&#128269;</span>
-      <input type="text" id="searchInput" placeholder="Cari mata kuliah, topik, atau istilah...">
+      <input type="search" id="searchInput" enterkeyhint="search" placeholder="Cari matkul, topik, istilah...">
       <button type="button" class="clear-btn" id="clearBtn">&#10005;</button>
+      <button type="button" class="search-submit-btn" id="searchSubmitBtn">Cari</button>
     </div>
     <button type="button" class="theme-toggle-btn" id="themeToggleBtn" title="Ganti Tema Gelap / Terang" aria-label="Ganti Tema">
       &#9728;&#65039;
     </button>
   </div>
 
-  <div class="tag-strip">
-    <button type="button" class="hash-chip active" data-course="all">#SemuaMatkul</button>
-    <button type="button" class="hash-chip" data-course="Dasar Teknik Elektro">#TeknikElektro</button>
-    <button type="button" class="hash-chip" data-course="Kimia">#KimiaBaterai</button>
-    <button type="button" class="hash-chip" data-course="Kalkulus Dasar">#Kalkulus</button>
-    <button type="button" class="hash-chip" data-course="Pemrograman Dasar">#Python</button>
-    <button type="button" class="hash-chip" data-course="Bahasa Indonesia">#EYD_V</button>
-  </div>
-
-  <!-- 2. Interactive 3D Swipeable Hero Carousel -->
+  <!-- 2. Interactive Swipeable Hero Carousel -->
   <section class="carousel-section">
     <div class="carousel-track" id="carouselTrack">
 
-      <!-- Slide 1: 3D Character Hero -->
+      <!-- Slide 1: Hero + Video Profil Portal -->
       <div class="carousel-slide slide-hero" id="heroSlide">
         <div class="hero-grid">
-          <div>
-            <h1 class="hero-title">Mulai Petualangan Belajarmu!</h1>
-            <p class="hero-sub">Materi kuliah Teknik Elektro UNPAM terkurasi simpel &amp; praktis.</p>
-            <button type="button" class="swipe-cta" id="goToCoursesBtn">
-              Pilih Mata Kuliah &#9654;
-            </button>
+          <div class="hero-copy-wrap">
+            <img
+              class="hero-copy-bg"
+              src="https://drive.google.com/thumbnail?id=1TCvhakmGJDkJ3qk9a6IYM-SU9umPX3P8&sz=w900"
+              onerror="this.onerror=null;this.src='https://lh3.googleusercontent.com/d/1TCvhakmGJDkJ3qk9a6IYM-SU9umPX3P8=w900';"
+              alt="Foto Kelompok 4"
+            >
+            <div class="hero-copy-scrim"></div>
+            <div class="hero-copy-content">
+              <h1 class="hero-title">Mulai Petualangan Belajarmu!</h1>
+              <p class="hero-sub">Materi kuliah Teknik Elektro UNPAM terkurasi simpel &amp; praktis.</p>
+              <button type="button" class="swipe-cta" id="goToCoursesBtn">
+                Pilih Mata Kuliah &#9654;
+              </button>
+            </div>
           </div>
 
-          <!-- Interactive 3D Stage -->
-          <div class="stage-3d" id="stage3d" title="Sentuh atau gerakkan untuk efek 3D">
-            <span class="float-bolt">&#9889;</span>
-            <span class="float-atom">&#9883;&#65039;</span>
-            <span class="float-chip">RPS &bull; S1</span>
-            <button type="button" class="play-orb" id="quickPlayBtn" title="Putar materi terbaru">&#9654;</button>
-
-            <svg width="136" height="154" viewBox="0 0 140 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="bgGlow" x1="20" y1="10" x2="120" y2="150" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#8B5CF6" stop-opacity="0.45"/>
-                  <stop offset="1" stop-color="#34D399" stop-opacity="0.15"/>
-                </linearGradient>
-                <linearGradient id="hoodieGrad" x1="35" y1="95" x2="105" y2="155" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#6366F1"/>
-                  <stop offset="1" stop-color="#312E81"/>
-                </linearGradient>
-                <linearGradient id="skinGrad" x1="50" y1="35" x2="90" y2="90" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#FDE68A"/>
-                  <stop offset="1" stop-color="#F59E0B"/>
-                </linearGradient>
-                <linearGradient id="hpBand" x1="36" y1="22" x2="104" y2="65" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#A3E635"/>
-                  <stop offset="1" stop-color="#34D399"/>
-                </linearGradient>
-              </defs>
-
-              <circle cx="70" cy="82" r="56" fill="url(#bgGlow)"/>
-              <path d="M36 146C36 122 50 106 70 106C90 106 104 122 104 146H36Z" fill="url(#hoodieGrad)"/>
-              <path d="M60 106L70 128L80 106H60Z" fill="#34D399"/>
-              <rect x="62" y="88" width="16" height="20" rx="8" fill="#D97706"/>
-              <rect x="46" y="38" width="48" height="54" rx="24" fill="url(#skinGrad)"/>
-              <path d="M44 56C44 37 56 28 72 28C88 28 96 38 96 54C92 46 82 43 70 44C58 45 49 49 44 56Z" fill="#1E293B"/>
-              <circle cx="60" cy="64" r="3.2" fill="#0F172A"/>
-              <circle cx="80" cy="64" r="3.2" fill="#0F172A"/>
-              <path d="M63 75C66 79 74 79 77 75" stroke="#0F172A" stroke-width="2.8" stroke-linecap="round"/>
-
-              <path d="M41 62V54C41 36 53 23 70 23C87 23 99 36 99 54V62" stroke="url(#hpBand)" stroke-width="6" stroke-linecap="round"/>
-              <rect x="35" y="53" width="11" height="22" rx="5.5" fill="#A3E635" stroke="#0F172A" stroke-width="2"/>
-              <rect x="94" y="53" width="11" height="22" rx="5.5" fill="#A3E635" stroke="#0F172A" stroke-width="2"/>
-
-              <rect x="14" y="96" width="54" height="34" rx="8" fill="#0F172A" fill-opacity="0.88" stroke="#38BDF8" stroke-width="1.8"/>
-              <path d="M22 108H36L40 103H58M22 118H32L37 123H56" stroke="#38BDF8" stroke-width="1.6" stroke-linecap="round"/>
-              <circle cx="58" cy="103" r="2.2" fill="#A3E635"/>
-              <circle cx="56" cy="123" r="2.2" fill="#FB7185"/>
-            </svg>
+          <!-- Area Video Profil Portal (Tanpa Bingkai Kotak) -->
+          <div class="hero-video-slot" id="heroVideoSlot">
+            <div class="hero-video-poster" id="heroVideoPoster" role="button" tabindex="0" aria-label="Putar Video Profil Portal Kurasi Kelompok 4">
+              <div class="hero-play-circle">&#9654;</div>
+              <div class="hero-video-caption">Animasi Presentasi Portal Kurasi</div>
+              <div class="hero-video-subcap">Ketuk untuk memutar video presentasi</div>
+            </div>
           </div>
         </div>
 
@@ -1268,7 +1458,7 @@
             <div>Dikembangkan oleh <strong style="color: #a3e635;">Kelompok 4 Bahasa Indonesia</strong></div>
             <div style="color: #e2e8f0; margin: 2px 0;">
             &bull; Khusnul Adim (261010100279) 
-    <br>        &bull; Stefanus Gian Praditya (261010100313)
+            <br>&bull; Stefanus Gian Praditya (261010100313)
             </div>
             <div style="color: #93c5fd; font-weight: 700;">Prodi Teknik Elektro UNPAM</div>
           </div>
@@ -1284,28 +1474,49 @@
         <div class="subject-grid">
           <button type="button" class="subj-tile active" data-course="all">
             <span class="subj-icon" style="background: rgba(56,189,248,0.18); color:#0284c7;">&#127760;</span>
-            <span class="subj-name">Semua (9 Matkul)</span>
+            <div class="subj-info">
+              <span class="subj-name">Semua Matkul</span>
+              <span class="subj-count">9 Mata Kuliah</span>
+            </div>
           </button>
           <button type="button" class="subj-tile" data-course="Dasar Teknik Elektro">
             <span class="subj-icon" style="background: rgba(163,230,53,0.22); color:#65a30d;">&#9889;</span>
-            <span class="subj-name">Dasar Teknik Elektro</span>
+            <div class="subj-info">
+              <span class="subj-name">Dasar Teknik Elektro</span>
+              <span class="subj-count">3 Topik Video</span>
+            </div>
           </button>
           <button type="button" class="subj-tile" data-course="Kalkulus Dasar">
             <span class="subj-icon" style="background: rgba(251,113,133,0.18); color:#e11d48;">&#8747;</span>
-            <span class="subj-name">Kalkulus Dasar</span>
+            <div class="subj-info">
+              <span class="subj-name">Kalkulus Dasar</span>
+              <span class="subj-count">3 Topik Video</span>
+            </div>
           </button>
           <button type="button" class="subj-tile" data-course="Fisika">
             <span class="subj-icon" style="background: rgba(139,92,246,0.20); color:#7c3aed;">&#9883;&#65039;</span>
-            <span class="subj-name">Fisika</span>
+            <div class="subj-info">
+              <span class="subj-name">Fisika</span>
+              <span class="subj-count">3 Topik Video</span>
+            </div>
           </button>
           <button type="button" class="subj-tile" data-course="Aljabar Linear">
             <span class="subj-icon" style="background: rgba(251,191,36,0.22); color:#d97706;">&#128202;</span>
-            <span class="subj-name">Aljabar Linear</span>
+            <div class="subj-info">
+              <span class="subj-name">Aljabar Linear</span>
+              <span class="subj-count">2 Topik Video</span>
+            </div>
           </button>
           <button type="button" class="subj-tile" data-course="Kimia">
             <span class="subj-icon" style="background: rgba(52,211,153,0.20); color:#059669;">&#129514;</span>
-            <span class="subj-name">Kimia</span>
+            <div class="subj-info">
+              <span class="subj-name">Kimia</span>
+              <span class="subj-count">2 Topik Video</span>
+            </div>
           </button>
+        </div>
+        <div class="slide-note">
+          Ketuk salah satu kotak mata kuliah di atas untuk menyaring daftar video di bawah.
         </div>
       </div>
 
@@ -1318,20 +1529,35 @@
         <div class="subject-grid">
           <button type="button" class="subj-tile" data-course="Pemrograman Dasar">
             <span class="subj-icon" style="background: rgba(56,189,248,0.18); color:#0284c7;">&#128187;</span>
-            <span class="subj-name">Pemrograman Dasar</span>
+            <div class="subj-info">
+              <span class="subj-name">Pemrograman Dasar</span>
+              <span class="subj-count">3 Topik Video</span>
+            </div>
           </button>
           <button type="button" class="subj-tile" data-course="Basic English for International Communication (BEIC)">
             <span class="subj-icon" style="background: rgba(244,114,182,0.18); color:#db2777;">&#127468;&#127463;</span>
-            <span class="subj-name">Basic English (BEIC)</span>
+            <div class="subj-info">
+              <span class="subj-name">Basic English (BEIC)</span>
+              <span class="subj-count">2 Topik Video</span>
+            </div>
           </button>
           <button type="button" class="subj-tile" data-course="Bahasa Indonesia">
             <span class="subj-icon" style="background: rgba(251,113,133,0.18); color:#e11d48;">&#128221;</span>
-            <span class="subj-name">Bahasa Indonesia</span>
+            <div class="subj-info">
+              <span class="subj-name">Bahasa Indonesia</span>
+              <span class="subj-count">2 Topik Video</span>
+            </div>
           </button>
           <button type="button" class="subj-tile" data-course="Pendidikan Kewarganegaraan (PKn)">
             <span class="subj-icon" style="background: rgba(251,191,36,0.22); color:#d97706;">&#127963;&#65039;</span>
-            <span class="subj-name">Pendidikan Kewarganegaraan</span>
+            <div class="subj-info">
+              <span class="subj-name">Pendidikan Kewarganegaraan</span>
+              <span class="subj-count">2 Topik Video</span>
+            </div>
           </button>
+        </div>
+        <div class="slide-note">
+          Ingin menambah video rekomendasimu sendiri? Gunakan tombol <b>+ Tambah Video</b> di bagian atas.
         </div>
       </div>
 
@@ -1344,11 +1570,10 @@
     </div>
   </section>
 
-  <!-- 2B. Pengingat & Update Mingguan (Google Tasks) -->
+  <!-- 2B. Pengingat & Update Mingguan (Custom Task -> Google Tasks) -->
   <section class="weekly-card">
     <div class="weekly-top">
       <h3>&#9200; Pengingat &amp; Update Mingguan</h3>
-      <span class="weekly-badge">Update Tiap Minggu</span>
     </div>
     <p class="weekly-desc">
       Dirancang untuk mahasiswa kelas pekerja agar jadwal tontonan video kurasi dan tugas kuliah mingguan tidak terlewat.
@@ -1358,18 +1583,44 @@
       <li><label><input type="checkbox" class="weekly-cb" data-wid="w2"> Cek rekomendasi video baru / update catatan pekanan</label></li>
       <li><label><input type="checkbox" class="weekly-cb" data-wid="w3"> Selesaikan tugas mingguan kuliah &amp; setel pengingat rutin</label></li>
     </ul>
+
+    <div class="custom-task-box">
+      <div class="custom-task-label">&#9997; Tulis Pengingat Tugas Custom (Salin ke Google Tasks)</div>
+      <div class="course-inline-bar" id="taskCourseInlineBar" role="group" aria-label="Pilihan Mata Kuliah">
+        <button type="button" class="course-inline-chip" data-course="Dasar Teknik Elektro">Dasar Teknik Elektro</button>
+        <button type="button" class="course-inline-chip" data-course="Kalkulus Dasar">Kalkulus Dasar</button>
+        <button type="button" class="course-inline-chip" data-course="Fisika">Fisika</button>
+        <button type="button" class="course-inline-chip" data-course="Aljabar Linear">Aljabar Linear</button>
+        <button type="button" class="course-inline-chip" data-course="Kimia">Kimia</button>
+        <button type="button" class="course-inline-chip" data-course="Pemrograman Dasar">Pemrograman Dasar</button>
+        <button type="button" class="course-inline-chip" data-course="Basic English for International Communication (BEIC)">Basic English (BEIC)</button>
+        <button type="button" class="course-inline-chip" data-course="Bahasa Indonesia">Bahasa Indonesia</button>
+        <button type="button" class="course-inline-chip" data-course="Pendidikan Kewarganegaraan (PKn)">PKn</button>
+      </div>
+      <input type="text" id="customTaskCourse" autocomplete="off" placeholder="Judul Mata Kuliah (geser/ketuk pilihan di atas atau ketik manual)...">
+      <div class="category-chip-row" id="taskCategoryChips" role="group" aria-label="Kategori Tugas Cepat">
+        <button type="button" class="task-cat-chip" data-prefix="[Catatan] ">&#128221; Catatan</button>
+        <button type="button" class="task-cat-chip" data-prefix="[Soal] ">&#9999;&#65039; Soal</button>
+        <button type="button" class="task-cat-chip" data-prefix="[Project] ">&#128736;&#65039; Project</button>
+        <button type="button" class="task-cat-chip" data-prefix="[E-Learning] ">&#128187; E-Learning</button>
+        <button type="button" class="task-cat-chip" data-prefix="[Presentasi] ">&#127908; Presentasi</button>
+        <button type="button" class="task-cat-chip" data-prefix="[Praktikum] ">&#9889; Praktikum</button>
+      </div>
+      <input type="text" id="customTaskNote" placeholder="Ketuk kategori di atas atau tulis catatan tugas manual...">
+    </div>
+
     <div class="weekly-actions">
-      <a href="https://tasks.google.com/" target="_blank" rel="noopener noreferrer" class="tasks-link-btn">
-        &#10003; Buka Google Tasks
-      </a>
+      <button type="button" class="tasks-link-btn" id="syncGoogleTasksBtn">
+        &#10003; Salin &amp; Buka Google Tasks
+      </button>
       <button type="button" class="mini-action" id="copyWeeklyTaskBtn" style="flex:0 1 auto; padding:7px 13px; font-size:12px;">
-        &#128203; Salin Teks Tugas Mingguan
+        &#128203; Salin Teks Tugas
       </button>
     </div>
   </section>
 
   <!-- 3. Topic List Header -->
-  <div class="section-head">
+  <div class="section-head" id="topikSectionHead">
     <h2>Topik Pembelajaran</h2>
     <span class="filter-badge" id="activeFilterLabel">Semua (22 Topik)</span>
   </div>
@@ -1530,16 +1781,27 @@
     serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-  // GANTI DENGAN KONFIGURASI FIREBASE MILIKMU DI CONSOLE.FIREBASE.GOOGLE.COM
-  
- const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyAES3d8CcmKH9XhOnouHAHKeLYL6z1IDXM",
-  authDomain: "portal-kurasi-kel4.firebaseapp.com",
-  projectId: "portal-kurasi-kel4",
-  storageBucket: "portal-kurasi-kel4.firebasestorage.app",
-  messagingSenderId: "619987412204",
-  appId: "1:619987412204:web:1cfcfbec9ba292f80831c9"
-};
+  const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyAES3d8CcmKH9XhOnouHAHKeLYL6z1IDXM",
+    authDomain: "portal-kurasi-kel4.firebaseapp.com",
+    projectId: "portal-kurasi-kel4",
+    storageBucket: "portal-kurasi-kel4.firebasestorage.app",
+    messagingSenderId: "619987412204",
+    appId: "1:619987412204:web:1cfcfbec9ba292f80831c9"
+  };
+
+  // Alias kata kunci pencarian fleksibel per mata kuliah
+  const COURSE_ALIASES = {
+    "Dasar Teknik Elektro": ["dte", "elektro", "listrik", "ohm", "kirchhoff", "resistor", "rangkaian"],
+    "Kalkulus Dasar": ["kalkulus", "limit", "turunan", "diferensial", "mutlak", "pertidaksamaan"],
+    "Fisika": ["fisika", "vektor", "coulomb", "gauss", "elektrostatis", "fluks"],
+    "Aljabar Linear": ["aljabar", "matriks", "spl", "gauss", "jordan", "transpos"],
+    "Kimia": ["kimia", "baterai", "redoks", "volta", "atom", "elektron", "elektrolisis"],
+    "Pemrograman Dasar": ["pemrograman", "python", "coding", "koding", "algoritma", "flowchart", "loop"],
+    "Basic English for International Communication (BEIC)": ["inggris", "english", "beic", "basic english", "presentasi", "tense"],
+    "Bahasa Indonesia": ["indo", "indonesia", "bahasa", "eyd", "ejaan", "kalimat efektif", "paragraf"],
+    "Pendidikan Kewarganegaraan (PKn)": ["pkn", "ppkn", "kewarganegaraan", "uud", "konstitusi", "identitas nasional"]
+  };
 
   const baseModulesData = [
     {
@@ -1844,7 +2106,7 @@
     return [...customModules, ...baseModulesData];
   }
 
-  // Firebase Setup (aman walau belum diganti konfigurasinya)
+  // Firebase Setup
   let auth = null;
   let db = null;
   const provider = new GoogleAuthProvider();
@@ -1860,14 +2122,52 @@
     }
   }
 
+  const toastEl = document.getElementById("toast");
+
   function showToast(msg) {
     toastEl.textContent = msg;
     toastEl.classList.add("show");
     clearTimeout(window.toastTimer);
-    window.toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2300);
+    window.toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2500);
   }
 
-  // Ekstrak YouTube ID dari berbagai format URL atau ID langsung
+  function scrollToCardsSection() {
+    setTimeout(() => {
+      const target = document.getElementById("topikSectionHead");
+      if (!target) return;
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 90);
+  }
+
+  // Lite Embed Video Profil di Hero (File MP4 Lokal ./videoupdate.mp4 di Repository GitHub Pages)
+  const heroVideoSlot = document.getElementById("heroVideoSlot");
+  const heroVideoPoster = document.getElementById("heroVideoPoster");
+  const PROFILE_VIDEO_LOCAL_URL = "./videoupdate.mp4";
+
+  function playHeroProfileVideo() {
+    heroVideoSlot.innerHTML = `
+      <video
+        src="${PROFILE_VIDEO_LOCAL_URL}"
+        controls
+        autoplay
+        playsinline
+        preload="metadata"
+        title="Animasi Presentasi Portal Kurasi Kelompok 4"
+        style="width:100%; height:100%; max-width:100%; max-height:100%; object-fit:contain; object-position:center; border-radius:14px; background:transparent; display:block;"
+      ></video>
+    `;
+  }
+
+  if (heroVideoPoster) {
+    heroVideoPoster.addEventListener("click", playHeroProfileVideo);
+    heroVideoPoster.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        playHeroProfileVideo();
+      }
+    });
+  }
+
   function extractYouTubeId(input) {
     const clean = (input || "").trim();
     if (/^[a-zA-Z0-9_-]{11}$/.test(clean)) return clean;
@@ -1875,7 +2175,6 @@
     return match ? match[1] : null;
   }
 
-  // Auth UI Update
   const userNameLabel = document.getElementById("userNameLabel");
   const userSubLabel = document.getElementById("userSubLabel");
   const userAvatarBox = document.getElementById("userAvatarBox");
@@ -1892,7 +2191,7 @@
       googleLoginBtn.style.display = "none";
       googleLogoutBtn.style.display = "inline-block";
     } else {
-      userNameLabel.textContent = isFirebaseConfigured ? "Belum Masuk Google" : "Mode Lokal (Siap Konfigurasi Firebase)";
+      userNameLabel.textContent = isFirebaseConfigured ? "Mode Tamu (Belum Masuk Google)" : "Mode Lokal (Siap Konfigurasi Firebase)";
       userSubLabel.textContent = "Masuk dengan akun Google untuk menambah rekomendasi video";
       userAvatarBox.innerHTML = "&#128100;";
       googleLoginBtn.style.display = "inline-flex";
@@ -1956,7 +2255,6 @@
     });
   }
 
-  // Modal Tambah Video Custom
   const addVideoModal = document.getElementById("addVideoModal");
   document.getElementById("openAddVideoBtn").addEventListener("click", () => {
     if (isFirebaseConfigured && !currentUser) {
@@ -2066,7 +2364,6 @@
     }
   };
 
-  // Share ke WhatsApp
   window.shareToWhatsApp = function(id) {
     const item = getAllModules().find(m => m.id === id);
     if (!item) return;
@@ -2083,21 +2380,107 @@
     window.open(waUrl, "_blank", "noopener,noreferrer");
   };
 
-  // Weekly Tasks Persistence & Copy
+  const customTaskCourseEl = document.getElementById("customTaskCourse");
+  const customTaskNoteEl = document.getElementById("customTaskNote");
+
+  customTaskCourseEl.value = localStorage.getItem("hcdt_custom_task_course") || "";
+  customTaskNoteEl.value = localStorage.getItem("hcdt_custom_task_note") || "";
+
+  const catChipBtns = document.querySelectorAll(".task-cat-chip");
+
+  function syncCategoryChipActiveState() {
+    const val = customTaskNoteEl.value;
+    catChipBtns.forEach(btn => {
+      btn.classList.toggle("active", val.includes(btn.dataset.prefix.trim()));
+    });
+  }
+
+  catChipBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const prefix = btn.dataset.prefix;
+      const trimmedPrefix = prefix.trim();
+      const currentVal = customTaskNoteEl.value;
+      if (currentVal.includes(trimmedPrefix)) {
+        const escaped = trimmedPrefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const nextVal = currentVal
+          .replace(new RegExp(`\\s*${escaped}\\s*`, "g"), " ")
+          .replace(/^\s+|\s+$/g, "")
+          .replace(/\s{2,}/g, " ");
+        customTaskNoteEl.value = nextVal;
+      } else {
+        customTaskNoteEl.value = prefix + currentVal;
+      }
+      localStorage.setItem("hcdt_custom_task_note", customTaskNoteEl.value);
+      syncCategoryChipActiveState();
+      customTaskNoteEl.focus();
+    });
+  });
+
+  const coursePickBtns = document.querySelectorAll(".course-inline-chip");
+
+  function syncCourseChipActiveState() {
+    const val = customTaskCourseEl.value.trim().toLowerCase();
+    coursePickBtns.forEach(btn => {
+      btn.classList.toggle("active", Boolean(val) && btn.dataset.course.toLowerCase() === val);
+    });
+  }
+
+  coursePickBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      customTaskCourseEl.value = btn.dataset.course;
+      localStorage.setItem("hcdt_custom_task_course", customTaskCourseEl.value);
+      syncCourseChipActiveState();
+    });
+  });
+
+  customTaskCourseEl.addEventListener("input", () => {
+    localStorage.setItem("hcdt_custom_task_course", customTaskCourseEl.value);
+    syncCourseChipActiveState();
+  });
+  syncCourseChipActiveState();
+  customTaskNoteEl.addEventListener("input", () => {
+    localStorage.setItem("hcdt_custom_task_note", customTaskNoteEl.value);
+    syncCategoryChipActiveState();
+  });
+  syncCategoryChipActiveState();
+
+  function buildWeeklyTaskText() {
+    const matkul = customTaskCourseEl.value.trim();
+    const catatan = customTaskNoteEl.value.trim();
+    if (matkul && catatan) {
+      return `[${matkul}] ${catatan} — Portal Kurasi Kel. 4 (${window.location.href})`;
+    }
+    if (matkul) {
+      return `[${matkul}] Tonton video kurasi & selesaikan tugas pekan ini — ${window.location.href}`;
+    }
+    if (catatan) {
+      return `${catatan} — Portal Kurasi Kel. 4 (${window.location.href})`;
+    }
+    return `Pengingat Mingguan Portal Kurasi Kuliah (Kel. 4): Cek update video materi pekan ini & kerjakan tugas kuliah — ${window.location.href}`;
+  }
+
   document.querySelectorAll(".weekly-cb").forEach(cb => {
     const key = "hcdt_weekly_" + cb.dataset.wid;
     cb.checked = localStorage.getItem(key) === "true";
     cb.addEventListener("change", () => localStorage.setItem(key, cb.checked));
   });
 
+  document.getElementById("syncGoogleTasksBtn").addEventListener("click", () => {
+    const teks = buildWeeklyTaskText();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(teks).catch(() => {});
+    }
+    showToast("Tugas disalin! Tinggal tempel di Google Tasks");
+    window.open("https://tasks.google.com/", "_blank", "noopener,noreferrer");
+  });
+
   document.getElementById("copyWeeklyTaskBtn").addEventListener("click", () => {
-    const teks = `Pengingat Mingguan Portal Kurasi Kuliah (Kel. 4): Cek update video materi pekan ini & kerjakan tugas kuliah — ${window.location.href}`;
+    const teks = buildWeeklyTaskText();
     navigator.clipboard.writeText(teks).then(() => {
-      showToast("Teks pengingat mingguan disalin!");
+      showToast("Teks pengingat tugas disalin!");
     });
   });
 
-  // Pengaturan Tema Gelap & Terang
   const themeToggleBtn = document.getElementById("themeToggleBtn");
   function applyTheme(theme) {
     if (theme === "light") {
@@ -2121,19 +2504,15 @@
     showToast(nextTheme === "light" ? "Tema Terang aktif" : "Tema Gelap aktif");
   });
 
-  // DOM Elements
   const cardsContainer = document.getElementById("cardsContainer");
   const emptyBox = document.getElementById("emptyBox");
   const activeFilterLabel = document.getElementById("activeFilterLabel");
   const progressText = document.getElementById("progressText");
   const searchInput = document.getElementById("searchInput");
   const clearBtn = document.getElementById("clearBtn");
-  const toastEl = document.getElementById("toast");
 
-  // Carousel & 3D Interaction
   const carouselTrack = document.getElementById("carouselTrack");
   const dotBtns = document.querySelectorAll(".dot-btn");
-  const stage3d = document.getElementById("stage3d");
 
   carouselTrack.addEventListener("scroll", () => {
     const idx = Math.round(carouselTrack.scrollLeft / carouselTrack.clientWidth);
@@ -2151,44 +2530,36 @@
     carouselTrack.scrollTo({ left: carouselTrack.clientWidth, behavior: "smooth" });
   });
 
-  document.getElementById("quickPlayBtn").addEventListener("click", () => {
-    selectCourse("Kimia");
-    toggleDrawer("kim-2", "video");
-    setTimeout(() => {
-      const el = document.getElementById("card-kim-2");
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 100);
-  });
-
-  stage3d.addEventListener("pointermove", e => {
-    const rect = stage3d.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 22;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -22;
-    stage3d.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-  });
-  stage3d.addEventListener("pointerleave", () => {
-    stage3d.style.transform = "rotateY(0deg) rotateX(0deg)";
-  });
-
   function updateProgress() {
     const total = getAllModules().length;
     progressText.textContent = `${studiedIds.length} / ${total}`;
   }
 
-  function selectCourse(course) {
+  function selectCourse(course, shouldScroll = true) {
     activeCourse = course;
+    if (searchQuery) {
+      searchQuery = "";
+      searchInput.value = "";
+      clearBtn.style.display = "none";
+    }
     document.querySelectorAll(".subj-tile").forEach(t => {
       t.classList.toggle("active", t.dataset.course === course);
     });
-    document.querySelectorAll(".hash-chip").forEach(c => {
-      c.classList.toggle("active", c.dataset.course === course);
-    });
     renderCards();
+    if (shouldScroll) {
+      scrollToCardsSection();
+    }
   }
 
-  document.querySelectorAll(".subj-tile, .hash-chip").forEach(btn => {
-    btn.addEventListener("click", () => selectCourse(btn.dataset.course));
+  document.querySelectorAll(".subj-tile").forEach(btn => {
+    btn.addEventListener("click", () => selectCourse(btn.dataset.course, true));
   });
+
+  function matchesCourseAlias(courseName, q) {
+    if (!q) return true;
+    const aliases = COURSE_ALIASES[courseName] || [];
+    return aliases.some(alias => alias.startsWith(q) || (q.length >= 3 && (alias.includes(q) || q.includes(alias))));
+  }
 
   function renderCards() {
     const allModules = getAllModules();
@@ -2198,6 +2569,7 @@
       const gText = (item.glossary || []).map(g => `${g.term} ${g.def}`).join(" ").toLowerCase();
       const matchQ = !q ||
         item.course.toLowerCase().includes(q) ||
+        matchesCourseAlias(item.course, q) ||
         item.title.toLowerCase().includes(q) ||
         item.summary.toLowerCase().includes(q) ||
         (item.contributor || "").toLowerCase().includes(q) ||
@@ -2327,10 +2699,43 @@
     renderCards();
   };
 
+  function executeSearchAndScroll() {
+    searchQuery = searchInput.value;
+    clearBtn.style.display = searchQuery ? "block" : "none";
+    if (searchQuery.trim() && activeCourse !== "all") {
+      activeCourse = "all";
+      document.querySelectorAll(".subj-tile").forEach(t => {
+        t.classList.toggle("active", t.dataset.course === "all");
+      });
+    }
+    renderCards();
+    if (searchQuery.trim()) {
+      searchInput.blur();
+      scrollToCardsSection();
+    }
+  }
+
   searchInput.addEventListener("input", e => {
     searchQuery = e.target.value;
     clearBtn.style.display = searchQuery ? "block" : "none";
+    if (searchQuery.trim() && activeCourse !== "all") {
+      activeCourse = "all";
+      document.querySelectorAll(".subj-tile").forEach(t => {
+        t.classList.toggle("active", t.dataset.course === "all");
+      });
+    }
     renderCards();
+  });
+
+  searchInput.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      executeSearchAndScroll();
+    }
+  });
+
+  document.getElementById("searchSubmitBtn").addEventListener("click", () => {
+    executeSearchAndScroll();
   });
 
   clearBtn.addEventListener("click", () => {
@@ -2344,10 +2749,9 @@
     searchQuery = "";
     searchInput.value = "";
     clearBtn.style.display = "none";
-    selectCourse("all");
+    selectCourse("all", false);
   });
 
-  // Modal Testing HCDT
   const feedbackModal = document.getElementById("feedbackModal");
   const rekapList = document.getElementById("rekapList");
   const rekapCountLabel = document.getElementById("rekapCountLabel");
