@@ -2250,9 +2250,8 @@
   const heroVideoPoster = document.getElementById("heroVideoPoster");
 
   function playHeroProfileVideo() {
-    heroVideoSlot.innerHTML = `<video src="${PROFILE_VIDEO_SRC}" controls autoplay playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;background:#000000;"></video>`;
-  }
-  
+        heroVideoSlot.innerHTML = `<video src="${PROFILE_VIDEO_SRC}" controls autoplay playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;background:#000000;"></video>`;
+
 
   if (heroVideoPoster) {
     heroVideoPoster.addEventListener("click", playHeroProfileVideo);
