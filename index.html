@@ -1894,7 +1894,7 @@
   };
 
   // Video profil sementara dari Google Drive Kelompok 4
-  const PROFILE_VIDEO_EMBED_URL = "https://drive.google.com/file/d/1RSAoiWldp-Oh7ZxYH1RSAMM6G07W8m6g/preview";
+  const PROFILE_VIDEO_SRC = "./videoupdate.mp4";
 
   // Alias kata kunci pencarian fleksibel per mata kuliah
   const COURSE_ALIASES = {
@@ -2250,7 +2250,8 @@
   const heroVideoPoster = document.getElementById("heroVideoPoster");
 
   function playHeroProfileVideo() {
-        heroVideoSlot.innerHTML = `<video src="${PROFILE_VIDEO_SRC}" controls autoplay playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;background:#000000;"></video>`;
+  heroVideoSlot.innerHTML = `<video src="${PROFILE_VIDEO_SRC}" controls autoplay playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;background:#000000;"></video>`;
+}
 
 
   if (heroVideoPoster) {
