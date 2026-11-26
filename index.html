@@ -416,7 +416,7 @@
       overflow: hidden;
       background: rgba(15, 23, 42, 0.78);
       border: 1.5px solid rgba(167, 139, 250, 0.65);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.42);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.42);touch-action: manipulation;
     }
 
     .hero-video-poster {
@@ -469,12 +469,15 @@
       font-weight: 600;
     }
 
-    .hero-video-slot iframe {
+    .hero-video-slot iframe,
+    .hero-video-slot video{
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       border: 0;
+        object-fit: cover;
+  background: #000000;
     }
 
     /* Baris Bawah Hero: Kredit + 2 Gedung UNPAM Menyatu Halus */
@@ -2247,8 +2250,9 @@
   const heroVideoPoster = document.getElementById("heroVideoPoster");
 
   function playHeroProfileVideo() {
-    heroVideoSlot.innerHTML = `<iframe src="${PROFILE_VIDEO_EMBED_URL}" title="Animasi Presentasi Portal Kurasi Kelompok 4" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+    heroVideoSlot.innerHTML = `<video src="${PROFILE_VIDEO_SRC}" controls autoplay playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;background:#000000;"></video>`;
   }
+  
 
   if (heroVideoPoster) {
     heroVideoPoster.addEventListener("click", playHeroProfileVideo);
